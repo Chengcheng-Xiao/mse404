@@ -1,7 +1,5 @@
-Lab 1: Getting Started in Linux
-===============================
-
-[Back to Course Overview](..)
+Getting Started in Linux
+========================
 
 Connecting to the Linux server
 ------------------------------
@@ -29,7 +27,9 @@ in the right-hand list on x2go when you start it up, you will need to create it.
 - Select "XFCE" as the session type in the bottom drop down menu.
 - An image of this is given below:
 
-![x2go session preferences for linux server](x2go-session-prefs.png)
+<figure markdown="span">
+  ![x2go session preferences for linux server](x2go-session-prefs.png){ width="500" }
+</figure>
 
 - Once you have set this, click OK.
 - Then select the session from the right-hand menu (e.g. click on the
@@ -638,10 +638,10 @@ find a cheatsheet useful. If you don't want to make your own, a quick Google
 search of `Linux cheat sheet` brings up a number of options.
 
 If you're interested in seeing some more command line tools, some of these are
-listed in [linuxcommands](../linuxcommands). If you have time, I encourage you
-to at least skim through them, as it's very useful to know what kinds of
-things are possible. We'll refer back to some of these commands throughout the
-course.
+listed in [linuxcommands](../extras/misc/linuxcommands/readme.md). If you have
+time, I encourage you to at least skim through them, as it's very useful to know
+what kinds of things are possible. We'll refer back to some of these commands
+throughout the course.
 
 **Once you're finished with everything, be sure to log out of the remote
 desktop session. You can see this option if you click on your name on the

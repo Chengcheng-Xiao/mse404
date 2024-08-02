@@ -1,7 +1,5 @@
-Lab 7: Finite Temperature Properties
-====================================
-
-[Back to Course Overview](..)
+Finite Temperature Properties
+=============================
 
 Everything we've done so far has in fact been for systems at effectively zero
 temperature. And even at zero temperature, we haven't taken into account the

@@ -1,8 +1,8 @@
-Modelling Materials with Density Functional Theory
+Modelling Material with Density Functional Theory
 ==================================================
 
 This is the lab material for the Imperial College London, Department of
-Materials course "MSE404: Modelling Materials with Density Functional
+Materials course "MSE404: Modelling Material with Density Functional
 Theory".
 
 The latest version of the course is available online at
@@ -48,13 +48,14 @@ Additional Material:
 
 - [Calculating Useful Properties from Total
   Energies](labs/extras/labs/using_total_energies/readme.md)
-- [Examining the Charge Density and Wavefunction](visualising_output)
+- [Examining the Charge Density and Wavefunction](labs/extras/labs/visualising_
+  output/readme.md)
 - [The Hydrogen Atom and Electron
   Spin](labs/extras/labs/hydrogen_atom/readme.md)
 - [The Tetrahedron Method for Densities of
   States](labs/extras/labs/tetrahedron_method/readme.md)
 - [Optical Properties and Time-Dependent Density Functional
-  Theory](/labs/extras/labs/tddft/readme.md)
+  Theory](labs/extras/labs/tddft/readme.md)
 
 Extras:
 

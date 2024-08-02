@@ -1,13 +1,13 @@
-Extras: More Useful Linux Commands
-==================================
+More Useful Linux Commands
+==========================
 
-While we cover the basic file and navigation commands in [Lab 1](../lab01),
-There are many more commands that are available as standard on a Linux
-system that can make your life much easier. In this file we briefly go through
-some of the more commonly used ones and list a few useful options or
-potential use cases for each. We'll revisit many of these during the course
-as they'll help us automate some aspects of running and extracting data from
-our calculations.
+While we cover the basic file and navigation commands in [Lab
+1](../../../lab01/readme.md), There are many more commands that are available as
+standard on a Linux system that can make your life much easier. In this file we
+briefly go through some of the more commonly used ones and list a few useful
+options or potential use cases for each. We'll revisit many of these during the
+course as they'll help us automate some aspects of running and extracting data
+from our calculations.
 
 ### Some additional useful file commands
 

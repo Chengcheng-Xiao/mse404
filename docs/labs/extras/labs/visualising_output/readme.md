@@ -1,8 +1,6 @@
 Additional Material: Examining the Charge Density and Wavefunction
 ==================================================================
 
-[Back to Course Overview](..)
-
 In this lab we'll look at various ways of visualizing the output from your DFT
 calculations. To do this we'll be using several additional codes from the
 Quantum Espresso package.

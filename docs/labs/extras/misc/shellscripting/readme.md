@@ -1,5 +1,5 @@
-Extras: Bash and Shell Scripting
-================================
+Bash and Shell Scripting
+========================
 
 Bash Shell
 ----------

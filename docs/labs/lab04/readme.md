@@ -1,7 +1,5 @@
-Lab 4: Solids and Electronic Band Structures
-============================================
-
-[Back to Course Overview](..)
+Solids and Electronic Band Structures
+=====================================
 
 **Reminder** Don't forget to copy the `lab04` folder from `/opt/Courses/MSE404/lab04`
 to your home directory.

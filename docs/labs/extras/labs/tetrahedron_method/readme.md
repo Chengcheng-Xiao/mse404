@@ -1,10 +1,9 @@
 Additional Material: The Tetrahedron Method for Densities of States
 ===================================================================
 
-[Back to Course Overview](..)
-
-You saw in [lab 4](../lab04) how to calculate densities of states using
-broadening, in this section we look at how to use the tetrahedron method.
+You saw in [lab 4](../../../lab04/readme.md) how to calculate densities of
+states using broadening, in this section we look at how to use the tetrahedron
+method.
 
 ### Density of states using the tetrahedron method
 
@@ -13,9 +12,10 @@ the tetrahedron occupation scheme for the DFT calculation, and then don't
 set any `degauss` value in the `dos.x` input file. This is outlined in the
 `INPUT_DOS.txt` help file.
 
-An example where we have modified the diamond input files from [lab 4](../lab04) to
-calculate the density of states using tetrahedron integration is given in the
-[`01_diamond_tet`](01_diamond_tet) directory. 
+An example where we have modified the diamond input files from [lab
+4](../../../lab04/readme.md) to calculate the density of states using
+tetrahedron integration is given in the [`01_diamond_tet`](01_diamond_tet)
+directory. 
 
 If you run the same three steps for calculating densities of states using
 broadening again here, you'll once again produce a `pwscf.dos` file. If you 
@@ -38,4 +38,4 @@ example calculations provided down to a couple of minutes or less.
 ### _Task_
 
 - Plot the density of states and compare it that obtained using Gaussian
-  broadening in [lab 4](../lab04).
+  broadening in [lab 4](../../../lab04/readme.md).

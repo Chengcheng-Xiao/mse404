@@ -1,15 +1,15 @@
-Extras: Setting up the necessary software in a virtual machine
+Setting up the necessary software in a virtual machine
 ==============================================================
 
-[Back to Course Overview](..)
+!!! note note
+    If you are an MSE404 student you do not need to follow the instructions
+    given here. 
 
-**NOTE: If you are an MSE404 student you do not need to follow the
-instructions given here.** These instructions are only for people who wish
-to run their own copy of the software on their own machine. Doing is only
-recommended for more advanced users or people without access to the compute
-server. It will mean many files will not be at the location given in the lab
-documents so you will need to be able to modify the instructions correctly
-yourself.
+These instructions are only for people who wish to run their own
+copy of the software on their own machine. Doing is only recommended for more
+advanced users or people without access to the compute server. It will mean many
+files will not be at the location given in the lab documents so you will need to
+be able to modify the instructions correctly yourself.
 
 A virtual machine allows you to run a complete operating system contained
 within an application regardless of what operating system you have. One

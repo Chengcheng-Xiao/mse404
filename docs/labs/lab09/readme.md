@@ -1,7 +1,5 @@
-Lab 9: Charged system and excited states
-==============================================
-
-[Back to Course Overview](..)
+Charged system and excited states
+=================================
 
 **Reminder** Don't forget to copy the `lab09` folder from `/opt/Courses/MSE404/lab09`
 to your home directory.

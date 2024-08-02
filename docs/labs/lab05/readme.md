@@ -1,17 +1,15 @@
-Lab 5: Forces, Stresses and Structures
-======================================
-
-[Back to Course Overview](..)
+Forces, Stresses and Structures
+===============================
 
 **Reminder** Don't forget to copy the `lab05` folder from `/opt/Courses/MSE404/lab05`
 
 To find the minimum energy position of an atom, we could manually move it,
 calculating the total energy each time, effectively finding the position where
 the total force on it is zero. Some examples of how you can do this are given
-[here](../using_total_energies), you can take a look through in your own
-time if you're interested. Instead, in this lab we'll be looking at how forces
-and stresses can be calculated within DFT at essentially no extra cost via the
-Hellman-Feynman theorem, and how these can be used.
+[here](../extras/labs/using_total_energies/readme.md), you can take a look
+through in your own time if you're interested. Instead, in this lab we'll be
+looking at how forces and stresses can be calculated within DFT at essentially
+no extra cost via the Hellman-Feynman theorem, and how these can be used.
 
 In Quantum Espresso you can enable the calculation of forces and stresses by
 setting `tprnfor = .true.` and `tstress = .true.` respectively in the
@@ -70,7 +68,7 @@ zero it indicates your box size is likely not big enough.
 
 Now let's look at the convergence of the forces. As we've been doing in
 previous labs, we can extract the total force as a function of the energy
-cut-off using [`awk`](../linuxcommands/#awk):
+cut-off using [`awk`](../extras/misc/linuxcommands/readme.md#awk):
 
 ```bash
 awk '/kinetic-energy/{ecut=$4} /Total force/{print ecut, $4}' *out

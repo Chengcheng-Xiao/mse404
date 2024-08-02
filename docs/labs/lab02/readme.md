@@ -1,7 +1,5 @@
-Lab 2: Quantum Espresso Input and Output for Molecules
-======================================================
-
-[Back to Course Overview](..)
+Quantum Espresso Input and Output for Molecules
+===============================================
 
 Quantum Espresso
 ----------------
@@ -23,8 +21,8 @@ To run a calculation you first need to make an input file, describing the
 various calculation parameters along with giving the location of any other
 input files that will be used. Then you run the code giving it your input file
 (redirected from stdin in the case of Quantum Espresso - see [lab
-1](../lab01)), and it will create one or more files with the result of your
-calculation and potentially intermediate data also.
+1](../lab01/readme.md)), and it will create one or more files with the result of
+your calculation and potentially intermediate data also.
 
 First you'll need to copy the material for this Lab to your home directory.
 You should already have a directory named `MSE404` in your home directory; you
@@ -113,12 +111,12 @@ pw.x < CH4.in
 ```
 
 Here we redirected our input file to the stdin of `pw.x`, as described in the
-[IO Redirection section of lab 1](../lab01/#io-redirection). (We could also
-have used the `-i` flag to specify an input file as `pw.x -i CH4.in`.)
+[IO Redirection section of lab 1](../lab01/readme.md#io-redirection). (We could
+also have used the `-i` flag to specify an input file as `pw.x -i CH4.in`.)
 You'll see a lot of output has been generated in your terminal, but a simple
-calculation like this will finish quite quickly. It's better to explicitly
-save the output (and any error information) to a file. To do this, we can
-instead run the calculation a redirect the output to a file with
+calculation like this will finish quite quickly. It's better to explicitly save
+the output (and any error information) to a file. To do this, we can instead run
+the calculation a redirect the output to a file with
 
 ```bash
 pw.x < CH4.in &> CH4.out
@@ -174,13 +172,13 @@ Methane, ethane and ethene
 Now we understand the basics of the Quantum Espresso input file, let's try
 some other molecules, in this case ethane and ethene. The only things that we
 need to change are the number of atoms and the atomic positions. The input 
-files are in [C2H6.in](02_ethane/C2H6.in) and [C2H4.in](03_ethene/C2H4.in).
-If you want to see what we've changed in the [ethane input file](02_ethane/C2H6.in)
+files are in [C2H6.in](02_ethane/C2H6.in) and [C2H4.in](03_ethene/C2H4.in). If
+you want to see what we've changed in the [ethane input file](02_ethane/C2H6.in)
 relative to the [methane input file](01_methane/CH4.in) a useful tool is
-[`diff`](../linuxcommands#diff). If you're in the `lab02` directory
-you can type `diff 01_methane/CH4.in 02_ethane/C2H6.in`. You'll be
-able to see that we've only changed a few lines in our input file and
-everything else is the same.
+[`diff`](../extras/misc/linuxcommands/readme.md#diff). If you're in the `lab02`
+directory you can type `diff 01_methane/CH4.in 02_ethane/C2H6.in`. You'll be
+able to see that we've only changed a few lines in our input file and everything
+else is the same.
 
 ### _Task_
 
@@ -258,8 +256,8 @@ grab and rotate the structure with your mouse.
 
 We can also use `xcrysden` to visualize other quantities, such as the charge
 density. If you've got time left in this lab, check out the additional material
-on [`visualization`](../visualising_output), which shows you
-how to visualize the charge density of methane.
+on [`visualization`](../extras/labs/visualising_output/readme.md), which shows
+you how to visualize the charge density of methane.
 
 -------------------------------------------------------------------------------
 

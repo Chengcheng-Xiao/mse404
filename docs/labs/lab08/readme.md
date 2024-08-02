@@ -1,7 +1,5 @@
-Lab 8: Metals, Spin Polarization and Magnetic Systems
-=====================================================
-
-[Back to Course Overview](..)
+Metals, Spin Polarization and Magnetic Systems
+==============================================
 
 This week we'll cover two topics: metallic systems and spin. For metals,
 there are a couple of complications which mean we have to treat them
@@ -213,8 +211,9 @@ In this lab you have seen:
 Extra Material
 --------------
 
-For another example of a molecular case where spin is important, there is an
-see the additional material on [The Hydrogen Atom and Electron Spin](hydrogen_atom).
+For another example of a molecular case where spin is important, there is an see
+the additional material on [The Hydrogen Atom and Electron
+Spin](../extras/labs/hydrogen_atom/readme.md).
 
 
 

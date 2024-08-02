@@ -1,5 +1,5 @@
-Extras: Plotting with Gnuplot
-=============================
+Plotting with Gnuplot
+=====================
 
 Gnuplot is a command-line driven open-source plotting utility, with many
 features such as fitting, and 3D plotting available. You can install it on

@@ -1,8 +1,6 @@
 Additional Material: Calculating Useful Properties from Total Energies
 ======================================================================
 
-[Back to Course Overview](..)
-
 Once you can calculate a converged total energy for a given structure, you
 already know enough to calculate many useful materials properties.
 
@@ -39,8 +37,8 @@ The script will need to be slightly more complex than previously, as we'd
 managed to get by with just producing integer values in our scripts
 previously. Now we'll need to produce floating point values for `A` to get
 the resolution we would like. To do this, we can use the
-[`bc`](../linuxcommands#bc) command to perform the calculation of the
-lattice length for a given input file.
+[`bc`](../../misc/linuxcommands/readme.md#bc) command to perform the calculation
+of the lattice length for a given input file.
 
 Also Quantum Espresso outputs the unit cell volume (in Bohr cubed) so we can
 read this rather than calculating it ourselves.

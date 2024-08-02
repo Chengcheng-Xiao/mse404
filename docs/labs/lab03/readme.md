@@ -1,7 +1,5 @@
-Lab 3: Convergence and Importance Parameters
-============================================
-
-[Back to Course Overview](..)
+Convergence and Importance Parameters
+=====================================
 
 In this lab we'll continue looking at molecules, and we'll also be going
 through how to define various input parameters and how to check how well
@@ -13,15 +11,16 @@ to your home directory.
 Linux Recap
 -----------
 
-Before you start, if you can't remember how to do something from the command line, this
-[cheat sheet](https://www.slideshare.net/NoFernndezPozo/unix-command-sheet2014)
-may come in useful. Or you can always refer back to [lab 1](../lab01).
+Before you start, if you can't remember how to do something from the command
+line, this [cheat
+sheet](https://www.slideshare.net/NoFernndezPozo/unix-command-sheet2014) may
+come in useful. Or you can always refer back to [lab 1](../lab01/readme.md).
 
 Although it's not essential, at some point you may wish to transfer files between
 different computers. You can do this using the `scp` command. This
 [website](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
-explains how to use it. There are also some other useful commands which we haven't
-discussed [`here`](../linuxcommands).
+explains how to use it. There are also some other useful commands which we
+haven't discussed [`here`](../extras/misc/linuxcommands/readme.md).
 
 
 Pseudopotentials
@@ -38,14 +37,15 @@ multiple copies of the pseudopotential for different calculations. This week
 we'll be doing some different molecules. As always we need to make sure each
 of the atomic species have a pseudopotential listed in the input file.
 
-An alternative way to do this would be to specify the central pseudopotential directory
-directly in the input file. We've set this in the input file in
+An alternative way to do this would be to specify the central pseudopotential
+directory directly in the input file. We've set this in the input file in
 [`01_carbon_dioxide/CO2.in`](01_carbon_dioxide/CO2.in).
 
 - Take a look at the directory contents and you'll see there's only an
   input file there.
-- Compare this to one of the input files from [lab 2](../lab02) and run
-  the calculation to check it works. Note that you do not need to edit the file.
+- Compare this to one of the input files from [lab 2](../lab02/readme.md) and
+  run the calculation to check it works. Note that you do not need to edit the
+  file.
 - Take a look at the pseudopotential file we've used for oxygen. The header
   has some useful information regarding how the pseudopotential was generated,
   such as what states are included, and what approximations are used for
@@ -128,7 +128,7 @@ we're using. This means that the same commands you type in a terminal can be use
 in a bash script. In other words this script does the same thing as if we typed
 each line directly. It is also possible to execute the script directly using
 `./run_set.sh`, which would rquire you to set the file to executable, using
-[`chmod`](../linuxcommands#chmod).
+[`chmod`](../extras/misc/linuxcommands/readme.md#chmod).
 
 There are also a number of features available in `bash` to make scripts more
 general than an explicit set of commands. For example, let's say we want to
@@ -173,19 +173,19 @@ our earlier script to also do this).
 
 There are two different commands we could use to extract the resulting total
 energy from file. The first is often simpler to use and is called
-[`grep`](../linuxcommands#grep). For example we could use the
-following to print the line containing the final total energy from each
+[`grep`](../extras/misc/linuxcommands/readme.md#grep). For example we could use
+the following to print the line containing the final total energy from each
 output file using the fact that `pw.x` helpfully starts this line with a `!`:
-`grep '^!.*total energy' *out`. In particular, we are searching for a line which has the
-symbol `!` at the beginning `^` and that also contains the string `total energy`
-in all files whose names end with `out`.
-Try running this now in the directory containing your output files.
+`grep '^!.*total energy' *out`. In particular, we are searching for a line which
+has the symbol `!` at the beginning `^` and that also contains the string `total
+energy` in all files whose names end with `out`. Try running this now in the
+directory containing your output files.
 
-The other command we could use is [`awk`](../linuxcommands#awk),
-which is more powerful, but also more complicate to use, 
-and lets us pick out both the total energy
-value and the energy cut-off that was used with a single command. We could use
-this in a simple script as follows:
+The other command we could use is
+[`awk`](../extras/misc/linuxcommands/readme.md#awk), which is more powerful, but
+also more complicate to use, and lets us pick out both the total energy value
+and the energy cut-off that was used with a single command. We could use this in
+a simple script as follows:
 
 ```bash
 #!/bin/bash
@@ -246,13 +246,14 @@ awk '/kinetic-energy/{ecut=$4}
 ```
 
 Here we've combined the two scripts we created above, and also automated the
-generation of input files using the [`sed`](../linuxcommands#sed) command.
-This can be used to search for and replace some text in a file. We have set
-up a template input file [`CH4_base.in`](02_ecut/02_methane/CH4_base.in) where
-we have used the placeholder text `xxxx` as the text we'll
-search for and replace with energy cut-off we want for our input file.
-The bash construction `for val in {10..50..5}` will create a loop where
-the value stored in the variable `$val` runs from 10 to 50 in steps of 5.
+generation of input files using the
+[`sed`](../extras/misc/linuxcommands/readme.md#sed) command. This can be used to
+search for and replace some text in a file. We have set up a template input file
+[`CH4_base.in`](02_ecut/02_methane/CH4_base.in) where we have used the
+placeholder text `xxxx` as the text we'll search for and replace with energy
+cut-off we want for our input file. The bash construction `for val in
+{10..50..5}` will create a loop where the value stored in the variable `$val`
+runs from 10 to 50 in steps of 5.
 
 
 ### _Task_
@@ -267,8 +268,8 @@ Plotting with Gnuplot
 It's often useful to be able to generate a quick plot when testing the
 relation between variables. `gnuplot` is a useful tool for generating plots,
 particularly as it is also scriptable, so we could extend our earlier script
-to automatically generate a plot from from the extracted data. There is a
-more detailed overview in the [gnuplot section](../gnuplot).
+to automatically generate a plot from from the extracted data. There is a more
+detailed overview in the [gnuplot section](../extras/misc/gnuplot/readme.md).
 
 We can launch gnuplot by typing `gnuplot` in a terminal. Once it opens, we
 can, for example, plot a data file by typing `plot "etot_v_ecut.dat"`
@@ -432,7 +433,7 @@ empty space in one direction.
 
 ### _Advanced Shell scripting_
 
-If you're interested in reading more about scripting, you can take a look at
-the [shellscripting section](../shellscripting). We'll provide plenty of examples
-and keep things relatively simple in the course, but you may find some of the
-more advanced functionality useful in your own work.
+If you're interested in reading more about scripting, you can take a look at the
+[shellscripting section](../extras/misc/shellscripting/readme.md). We'll provide
+plenty of examples and keep things relatively simple in the course, but you may
+find some of the more advanced functionality useful in your own work.

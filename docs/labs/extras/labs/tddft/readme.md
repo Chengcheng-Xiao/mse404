@@ -1,8 +1,6 @@
 Additional Material: Optical Properties and Time-Dependent Density Functional Theory
 ====================================================================================
 
-[Back to Course Overview](..)
-
 Among the most useful class of properties to be able to predict for a molecule
 or crystal are its optical properties. These can be used to find the
 frequencies of optical radiation that will be absorbed or emitted, based on

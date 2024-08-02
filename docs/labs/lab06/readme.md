@@ -1,7 +1,5 @@
-Lab 6: Vibrational Frequencies and Normal Modes
-===============================================
-
-[Back to Course Overview](..)
+Vibrational Frequencies and Normal Modes
+========================================
 
 As we saw in the previous lab, we get easy access to the first derivatives of
 the total energy with respect to various parameters in a basic self-consistent

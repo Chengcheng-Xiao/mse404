@@ -1,14 +1,11 @@
-Extras: Running in Parallel
-===========================
+Running in Parallel
+===================
 
-[Back to Course Overview](..)
-
-All modern DFT codes are capable of running in parallel, provided they have
-been compiled to do so. While you may be familiar with a single application
-using several threads when you start it so that it runs faster, the
-parallelisation scheme used by many DFT codes allows them to run on a large
-number of different machines simultaneously to complete a single DFT
-calculation.
+All modern DFT codes are capable of running in parallel, provided they have been
+compiled to do so. While you may be familiar with a single application using
+several threads when you start it so that it runs faster, the parallelisation
+scheme used by many DFT codes allows them to run on a large number of different
+machines simultaneously to complete a single DFT calculation.
 
 In the quantum espresso package, this is achieved through the
 use of [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) in
