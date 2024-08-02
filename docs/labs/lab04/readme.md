@@ -1,12 +1,11 @@
 Solids and Electronic Band Structures
 =====================================
 
-**Reminder** Don't forget to copy the `lab04` folder from `/opt/Courses/MSE404/lab04`
-to your home directory.
-
 This week we are going to start doing some calculations on solids, i.e. fully
 periodic systems. Many of the principles will be the same, but as you will
 see there are a few things that need to be done differently.
+
+------------------------------------------------------------------------------
 
 Diamond
 -------
@@ -15,6 +14,9 @@ As our first example of a solid we're going to look at diamond. You can find an
 annotated input file at [:link:
 C_diamond_detailed.in](01_carbon_diamond/C_diamond_detailed.in), here I'll give
 a brief overview of the input file:
+
+!!! tip 
+    Click the + icon to see notes on the input tags.
 
 ```fortran
  &CONTROL
@@ -45,22 +47,26 @@ K_POINTS automatic !(3)
   4 4 4 1 1 1
 ```
 
-1.  `ibrav=2` specifies a FCC unit cell.
+1.  `ibrav=2` specifies a FCC unit cell (for a complete list of `ibrav`, see
+    [:link:input
+    descriptions](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm226)).
 2.  `crystal` specifies that the atomic positions are given in fractional
-    coordinates of the unit cell vectors (defined by `ibrav` and `A`).
-3.  We are using automically generated k-point grid with a 4x4x4 grid size.
+    coordinates of the unit cell vectors (defined by `ibrav` and
+    [`A`](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm260)).
+3.  We are using automically generated k-point grid with a 4$\times$4$\times$4
+    grid size (`1 1 1` means to shift the grid by 1 grid point in each
+    direction).
 
-!!! note
-    Absolute Cartesian coordinates $\mathbf{r}=[x,y,z]$ and fractional coordinates 
-    $\mathbf{r}_f=[x_f,y_f,z_f]$ are related by the three lattce vectors
-    $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
+Absolute Cartesian coordinates $\mathbf{r}=[x,y,z]$ and fractional coordinates 
+$\mathbf{r}_f=[x_f,y_f,z_f]$ are related by the three lattce vectors
+$\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
 
-    $$
-    \begin{align*}
-    \mathbf{r}_f &= \mathbf{r} \cdot [\mathbf{a},\mathbf{b},\mathbf{c}]\\
-    &=x\mathbf{a} + y\mathbf{b} + z\mathbf{c} 
-    \end{align*}
-    $$
+$$
+\begin{align*}
+\mathbf{r}_f &= \mathbf{r} \cdot [\mathbf{a},\mathbf{b},\mathbf{c}]\\
+&=x\mathbf{a} + y\mathbf{b} + z\mathbf{c} 
+\end{align*}
+$$
 
 For diamond, which has the same atomic structure as Zinc Blende, we set
 `ibrav=2`, i.e. face-centred cubic (fcc) Bravais lattice. Internally, Quantum
@@ -79,65 +85,127 @@ Under this basis, the fractional coordinates of the two carbon atoms are:
 $$
 \begin{align*}
 \mathbf{r}_f^{C1} &= (0,0,0) \\
-\mathbf{r}_f^{C2} &= (1/4,1/4,1/4)
+\mathbf{r}_f^{C2} &= (\frac{1}{4},\frac{1}{4},\frac{1}{4})
 \end{align*}
 $$
 
-Hence, the absolute Cartesian coordinates for the two carbon atoms are given by:
+Hence, the **absolute** Cartesian coordinates for the two carbon atoms are given by:
 
 $$
 \begin{align*}
 \mathbf{r}^{C1} &= \frac{A}{2}(-1,0,1) \times 0 + \frac{A}{2}(0,1,1) \times 0 +
 \frac{A}{2}(-1,1,0) \times 0 = (0,0,0)\\
-\mathbf{r}^{C2} &= \frac{A}{2}(-1,0,1) \times 1/4 + \frac{A}{2}(0,1,1) \times
-1/4 +
-\frac{A}{2}(-1,1,0) \times 1/4 = (A/4,A/4,A/4)
+\mathbf{r}^{C2} &= \frac{A}{2}(-1,0,1) \times \frac{1}{4} + \frac{A}{2}(0,1,1) 
+\times \frac{1}{4}+
+\frac{A}{2}(-1,1,0) \times \frac{1}{4} = (\frac{A}{4},\frac{A}{4},\frac{A}{4})
 \end{align*}
 $$
 
-### _Task_
+### Task 1 - Examining input & output files
 
-- Run the input file for diamond. There are a couple of extra things to notice
-  in the output file.
-- The output lists the automatically generated k-points. We have 10 here since
-  crystal symmetries have been taken into account after generating the 64
-  points on the 4x4x4 grid we requested.
-- The eigenvalues are output for each k-point.
+Run the input file for diamond. There are a couple of extra things to notice in
+the output file:
+
+=== "Automatically generated K-point list"
+    The output lists the automatically generated k-points. How many k-points are
+    there and why?
+=== "Answer"
+    We have 10 here since crystal symmetries have been taken into account after
+    generating the 64 points on the 4x4x4 grid we requested.
+<br>
+=== "Eigenvalues and occupations"
+    The eigenvalues are output for each k-point.
+=== "Answer"
+    ```
+    To be filled.
+    ```
 
 
 Silicon
 -------
 
 Silicon crystallises in the same structure as diamond. So in this case, all we
-need to do is change the lattice length to the silicon value,  and change the
+need to do is change the lattice length to the silicon value, and change the
 atoms from carbon to silicon. And of course we need to specify a silicon
-pseudopotential rather than use the carbon one. If you use `diff` you can see
-the differences between the [silicon input file](02_silicon/Si.in) relative to
-the [carbon diamond input file](01_carbon_diamond/C_diamond.in).  If you're in
-the `lab02` directory remember you can type  `diff
-01_carbon_diamond/C_diamond.in 02_silicon/Si.in`. You'll be able to see that
-we've changed four lines in our input file and everything else is the same. So
-switching to a system with the same structure but different atoms can be quite
-simple. _Note we've just used the measured lattice constant for both systems; in
-later labs we'll see how to find the lattice constant predicted by DFT._
+pseudopotential rather than use the carbon one. An example input file for the
+silicon can be found [:link: here](02_silicon/Si.in).:
+
+```fortran
+&CONTROL
+    pseudo_dir = '.'
+    disk_io = 'none'
+ /
+
+ &SYSTEM
+    ibrav = 2
+    A = 5.431 !(1)
+    nat = 2
+    ntyp = 1
+    ecutwfc = 20.0 !(4)
+ /
+
+ &ELECTRONS
+    conv_thr = 1.0E-6
+ /
+
+ATOMIC_SPECIES
+ Si  28.085  Si.pz-vbc.UPF !(2)
+
+ATOMIC_POSITIONS crystal
+ Si 0.00 0.00 0.00
+ Si 0.25 0.25 0.25
+
+K_POINTS automatic !(3)
+  4 4 4 1 1 1
+```
+
+1.  The lattice constant for silicon is 5.431 Å.
+2.  The atomic mass of silicon is 28.085 amu, and se use the pseudopotential
+    `Si.pz-vbc.UPF`.
+3.  We are using the same 4$\times$4$\times$4 k-point grid as for diamond.
+    This might not be the best choice for silicon, and a better choice can be
+    obatined by testing convergence with respect to k-point sampling.
+4.  We are using the same plane wave cut-off energy as for diamond. This might
+    not be the best choice for silicon, and a better choice can be obatined by
+    testing convergence with respect to the plane wave cut-off energy.
+
+
+
+!!! note
+    If you use `diff` you can see the differences between the [silicon input
+    file](02_silicon/Si.in) relative to the [carbon diamond input
+    file](01_carbon_diamond/C_diamond.in).  If you're in the `lab02` directory
+    remember you can type  `diff 01_carbon_diamond/C_diamond.in 02_silicon/Si.in`.
+    You'll be able to see that we've changed four lines in our input file and
+    everything else is the same. 
+
+So switching to a system with the same structure but different atoms can be 
+quite simple. 
+
+!!! warning 
+    Note that we've just used the measured lattice constant for both systems; 
+    In later labs (or in production runs) we'll see how to find the lattice 
+    constant predicted by DFT.
 
 For periodic systems it is important to test the convergence with respect to
 k-point sampling. The folder `02_silicon` contains a template file
 and script to check the convergence of the total energy with respect to the
 k-point sampling in silicon.
 
-### _Task_
+
+### Task 2 - Convergence with respect to k-point sampling and cut-off energy
+
+TODO: Expand this task.
 
 - Run the script and plot the convergence of total energy with respect to 
   k-point sampling. 
-
-### _Optional Task_
 
 - For every periodic system you simulate, you should converge both the cut-off
   energy and k-points. Try adapting one of the scripts from last week to also
   converge the energy of silicon with respect to the cut-off energy. How does
   the convergence behaviour of the two parameters compare?
 
+------------------------------------------------------------------------------
 
 The Electronic Band Structure
 -----------------------------
@@ -150,7 +218,9 @@ system, so can be useful in understanding the properties of a system.
 We have now seen how to converge our calculations with respect to the
 sampled k-point grid density. And you'll have seen in the calculations you
 have done that the calculated eigenvalues are a bit different at each
-calculated k-point. Examining how the state energies change from one k-point
+calculated k-point. 
+
+Examining how the state energies change from one k-point
 to the next can tell us useful things such as if a material is likely to have
 a direct or indirect optical gap for example. For this we need to visualize
 how the energies of the states vary with k-point. The usual way this is done
@@ -159,10 +229,10 @@ k-points in the Brillouin zone. The details of how this can be done is beyond
 the scope of this course, but an outline is given at the
 [end of this lab](#extra-high-symmetry-points).
 
-If you have a particular structure and you want to find out which are the
-important k-points,  then [this
-website](https://www.materialscloud.org/work/tools/seekpath) is a useful tool.
-
+!!! note "High symmetry points"
+   If you have a particular structure and you want to find out which are the
+   important k-points, then [this
+   website](https://www.materialscloud.org/work/tools/seekpath) is a useful tool.
 
 The directory `03_bandstructure/01_diamond` contains input files to calculate and
 plot the band structure of diamond.
@@ -265,16 +335,16 @@ valence band max was at gamma (the first point on our path), we could read the
 value of the energy at this point from one of the other output files,
 `bands.out`.
 
-### _Task_
+### Task - Generating and plotting band structure
 
 - Follow the above steps to generate a plot of the electronic band structure of
   diamond.
 
-### _Optional Task_
-
 - Generate a plot of the electronic band structure of silicon. Note this has
   an fcc Bravais lattice as did carbon diamond, so you can use the same set of
   high symmetry k-points for your plot.
+
+------------------------------------------------------------------------------
 
 Density of States
 -----------------
