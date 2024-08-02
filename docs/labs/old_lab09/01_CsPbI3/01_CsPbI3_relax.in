@@ -1,0 +1,40 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'none'
+    calculation = 'vc-relax'
+    forc_conv_thr = 5.0D-2
+    etot_conv_thr = 1.0D-2
+ /
+
+ &SYSTEM
+    ibrav = 1
+    A = 6.41414
+    nat = 5
+    ntyp = 3
+    ecutwfc = 50.0
+ /
+
+ &ELECTRONS
+ /
+
+ &IONS
+ /
+
+ &CELL
+   press_conv_thr = 10.0
+ /
+
+ATOMIC_SPECIES
+ Cs 132.905 Cs.pbe-spn-rrkjus_psl.1.0.0.UPF 
+ Pb 207.200 Pb.pbe-dn-rrkjus_psl.1.0.0.UPF
+  I 126.904 I.pbe-n-rrkjus_psl.1.0.0.UPF
+
+ATOMIC_POSITIONS crystal
+Cs 0.500000 0.500000 0.500000 
+Pb 0.000000 0.000000 0.000000 
+I  0.000000 0.000000 0.500000 
+I  0.000000 0.500000 0.000000 
+I  0.500000 0.000000 0.000000 
+
+K_POINTS automatic
+  4 4 4 1 1 1

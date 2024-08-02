@@ -1,0 +1,120 @@
+site_name: MSE404
+site_author: Johannes Lischner
+version: 7.0.0
+site_description: Labs for MSE404.
+
+# Copyright
+copyright: Copyright &copy; 2024 Johannes Lischner
+
+# Repository
+repo_name: Chengcheng-Xiao/mse404
+repo_url: https://github.com/Chengcheng-Xiao/mse404
+edit_uri: ""
+
+
+extra_javascript:
+  # mathjax
+  - javascripts/mathjax.js
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js
+  # katex
+  - javascripts/katex.js 
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+
+extra_css:
+  - stylesheets/extra.css
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+# Configuration
+theme:
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: light
+      toggle:
+        icon: material/weather-night #material/toggle-switch-off-outline
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: dark
+      toggle:
+        icon: material/weather-sunny #material/toggle-switch
+        name: Switch to light mode
+  logo: assets/IMPV2.svg
+  favicon: assets/favicon.ico
+  name: material
+  language: 'en'
+  font: false
+  # features:
+    # - navigation.tabs
+    # - navigation.sections
+    # - navigation.top
+    #- navigation.expand
+  # custom_dir: overrides
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - content.code.copy
+    - content.code.annotate
+
+
+markdown_extensions:
+  - def_list
+  - admonition
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      # emoji_index: !!python/name:materialx.emoji.twemoji
+      # emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.keys
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      linenums: true
+      # anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+
+
+validation:
+  omitted_files: warn
+  not_found: ignore
+
+plugins:
+  - search
+  #   lang: en
+  - macros
+
+nav:
+  - Introduction: index.md
+  - Labs:
+    - Lab 1: labs/lab01/readme.md
+    - Lab 2: labs/lab02/readme.md
+    - Lab 3: labs/lab03/readme.md
+    - Lab 4: labs/lab04/readme.md
+    - Lab 5: labs/lab05/readme.md
+    - Lab 6: labs/lab06/readme.md
+    - Lab 7: labs/lab07/readme.md
+    - Lab 8: labs/lab08/readme.md
+    - Lab 9: labs/lab09/readme.md
