@@ -6,11 +6,12 @@ Materials course "MSE404: Modelling Materials with Density Functional
 Theory".
 
 The latest version of the course is available online at
-<https://gitlab.com/mse404/mse404>. The text source files named ``readme.md``
-in the various directories use markdown. You can download the whole repository
-and view them in a terminal, or read them at the gitlab site where they're
-automatically rendered a little more nicely. Alternatively this content is
-also formatted as a website at <https://mse404.gitlab.io/labs>.
+<https://github.com/Chengcheng-Xiao/mse404>. The text source files named
+``readme.md`` in the various directories use markdown. You can download the
+whole repository and view them in a terminal, or read them at the Github site
+where they're automatically rendered a little more nicely. Alternatively this
+content is also formatted as a website at
+<https://chengcheng-xiao.github.io/mse404/>.
 
 This course is intended to introduce students to the modelling of materials
 with density-functional theory (DFT). In the labs we will use the free,
@@ -25,34 +26,41 @@ The labs are set up assuming students are using our student server remotely
 which has all the necessary software installed already. If it is not possible
 for you to do this, I suggest installing xubuntu to a virtual machine on your
 laptop. If you need to do this, there are some guidelines at
-[vmsetup](vmsetup). Note that the remote desktop software we use,
-[x2go](https://wiki.x2go.org) is freely available for Windows, Mac, and Linux
-so if you'd prefer to use your own laptop, please go ahead.
+[vmsetup](labs/extras/misc/vmsetup/readme.md). Note that the remote desktop
+software we use, [x2go](https://wiki.x2go.org) is freely available for Windows,
+Mac, and Linux so if you'd prefer to use your own laptop, please go ahead.
 
 The labs are organised as follows:
 
-- [Lab 1: Getting started in Linux](lab01)
-- [Lab 2: Quantum Espresso Input and Output](lab02)
-- [Lab 3: Converging your Calculations](lab03)
-- [Lab 4: The Electronic Band Structure and Density of States](lab04)
-- [Lab 5: Forces, Stresses and Structures](lab05)
-- [Lab 6: Vibrational Frequencies and Normal Modes](lab06)
-- [Lab 7: Finite Temperature Properties](lab07)
-- [Lab 8: Spin Polarization and Magnetic Systems](lab08)
-- [Lab 9: Optical Properties and Time-Dependent Density Functional Theory](lab09)
+- [Lab 1: Getting started in Linux](labs/lab01/readme.md)
+- [Lab 2: Quantum Espresso Input and Output](labs/lab02/readme.md)
+- [Lab 3: Converging your Calculations](labs/lab03/readme.md)
+- [Lab 4: The Electronic Band Structure and Density of
+  States](labs/lab04/readme.md)
+- [Lab 5: Forces, Stresses and Structures](labs/lab05/readme.md)
+- [Lab 6: Vibrational Frequencies and Normal Modes](labs/lab06/readme.md)
+- [Lab 7: Finite Temperature Properties](labs/lab07/readme.md)
+- [Lab 8: Spin Polarization and Magnetic Systems](labs/lab08/readme.md)
+- [Lab 9: Optical Properties and Time-Dependent Density Functional
+  Theory](labs/lab09/readme.md) 
 
 Additional Material:
 
-- [Calculating Useful Properties from Total Energies](using_total_energies)
-- [Examining the Charge Density and Wavefunction](visualising_output)
-- [The Hydrogen Atom and Electron Spin](hydrogen_atom)
-- [The Tetrahedron Method for Densities of States](tetrahedron_method)
-- [Optical Properties and Time-Dependent Density Functional Theory](tddft)
+- [Calculating Useful Properties from Total
+  Energies](labs/extras/labs/using_total_energies/readme.md)
+- [Examining the Charge Density and Wavefunction](labs/extras/labs/visualising_
+  output/readme.md)
+- [The Hydrogen Atom and Electron
+  Spin](labs/extras/labs/hydrogen_atom/readme.md)
+- [The Tetrahedron Method for Densities of
+  States](labs/extras/labs/tetrahedron_method/readme.md)
+- [Optical Properties and Time-Dependent Density Functional
+  Theory](labs/extras/labs/tddft/readme.md)
 
 Extras:
 
-- [Setting up a virtual machine](vmsetup)
-- [More Useful Linux Commands](linuxcommands)
-- [Plotting with Gnuplot](gnuplot)
-- [Bash and Shell Scripting](shellscripting)
-- [Running in Parallel](running_in_parallel)
+- [Setting up a virtual machine](labs/extras/misc/vmsetup/readme.md)
+- [More Useful Linux Commands](labs/extras/misc/linuxcommands/readme.md)
+- [Plotting with Gnuplot](labs/extras/misc/gnuplot/readme.md)
+- [Bash and Shell Scripting](labs/extras/misc/shellscripting/readme.md)
+- [Running in Parallel](labs/extras/labs/running_in_parallel/readme.md)
