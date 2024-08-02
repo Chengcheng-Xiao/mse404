@@ -88,3 +88,14 @@ html {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
+
+.md-top {
+  color: #ffffff;
+  background-color: hsla(212, 86%, 49%, 0.5);
+  border-style: solid;
+  border-width: thin;
+  border-color: hsla(212, 86%, 49%, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+

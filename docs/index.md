@@ -48,8 +48,7 @@ Additional Material:
 
 - [Calculating Useful Properties from Total
   Energies](labs/extras/labs/using_total_energies/readme.md)
-- [Examining the Charge Density and Wavefunction](labs/extras/labs/visualising_
-  output/readme.md)
+- [Examining the Charge Density and Wavefunction](labs/extras/labs/visualising_output/readme.md)
 - [The Hydrogen Atom and Electron
   Spin](labs/extras/labs/hydrogen_atom/readme.md)
 - [The Tetrahedron Method for Densities of
