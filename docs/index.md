@@ -1,8 +1,8 @@
-Modelling Material with Density Functional Theory
+Modelling Materials with Density Functional Theory
 ==================================================
 
 This is the lab material for the Imperial College London, Department of
-Materials course "MSE404: Modelling Material with Density Functional
+Materials course "MSE404: Modelling Materials with Density Functional
 Theory".
 
 The latest version of the course is available online at
