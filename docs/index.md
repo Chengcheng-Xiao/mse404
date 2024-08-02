@@ -1,33 +1,58 @@
-# Welcome to ONETEP's Tutorials!
+Modelling Materials with Density Functional Theory
+==================================================
 
-This is a privately maintained repository of tutorials of ONETEP.
-The aim of this repository is to make the tutorial easier to read by including
-additional tutorials and using mkdocs.
+This is the lab material for the Imperial College London, Department of
+Materials course "MSE404: Modelling Materials with Density Functional
+Theory".
 
-<!-- For full documentation visit [mkdocs.org](https://www.mkdocs.org). -->
+The latest version of the course is available online at
+<https://gitlab.com/mse404/mse404>. The text source files named ``readme.md``
+in the various directories use markdown. You can download the whole repository
+and view them in a terminal, or read them at the gitlab site where they're
+automatically rendered a little more nicely. Alternatively this content is
+also formatted as a website at <https://mse404.gitlab.io/labs>.
 
-## Contents:
+This course is intended to introduce students to the modelling of materials
+with density-functional theory (DFT). In the labs we will use the free,
+open-source DFT code [Quantum Espresso](http://www.quantum-espresso.org/), but
+while the format of the input files may change in other DFT codes, the general
+principles will be the same. The labs will also briefly introduce student to
+the use of the Linux OS and how it enables the effective use of computational
+resources, as well as showing students some simple scripting, analysis, and
+visualization tools.
 
-- [Tutorial 1](tutorials/tutorial_1/tutorial.md): Setting up Simple ONETEP Calculations
-- [Tutorial 4](tutorials/tutorial_4/tutorial.md): Geometry optimization 
-- [Tutorial 5](tutorials/tutorial_5/tutorial.md): DFT+U on strongly correlated magnetic materials: A case study on antiferromagnetic Hematite 
-- [Tutorial 6](tutorials/tutorial_6/tutorial.md): Time-Dependent DFT 
-- [Tutorial 8](tutorials/tutorial_8/tutorial.md): Implicit solvation, visualisation and properties: Protein-ligand free energy of binding for the T4 lysozyme 
-- [Tutorial 9](tutorials/tutorial_9/tutorial.md): Analysis and visualization 
-- [Tutorial 10](tutorials/tutorial_10/tutorial.md): Simulation cell relaxation
-- [Tutorial 11](tutorials/tutorial_11/tutorial.md): Electrified electrode-electrolyte interfaces under potentiostatic control
-- [Tutorial 12](tutorials/tutorial_12/tutorial.md): Quantum embedding with (time-dependent) embedded mean-field theory: hydrogenation and excitations of pentacene
-- [Tutorial 13](tutorials/tutorial_13/tutorial.md): ASE ONETEP interface
-- [Tutorial 14](tutorials/tutorial_14/tutorial.md): Electron Energy Loss Spectroscopy in ONETEP
+The labs are set up assuming students are using our student server remotely
+which has all the necessary software installed already. If it is not possible
+for you to do this, I suggest installing xubuntu to a virtual machine on your
+laptop. If you need to do this, there are some guidelines at
+[vmsetup](vmsetup). Note that the remote desktop software we use,
+[x2go](https://wiki.x2go.org) is freely available for Windows, Mac, and Linux
+so if you'd prefer to use your own laptop, please go ahead.
 
-<!-- * `mkdocs new [dir-name]` - Create a new project. -->
-<!-- * `mkdocs serve` - Start the live-reloading docs server. -->
-<!-- * `mkdocs build` - Build the documentation site. -->
-<!-- * `mkdocs -h` - Print help message and exit. -->
+The labs are organised as follows:
 
-<!-- ## Project layout -->
-<!--  -->
-<!--     mkdocs.yml    # The configuration file. -->
-<!--     docs -->
-<!--         index.md  # The documentation homepage. -->
-<!--         ...       # Other markdown pages, images and other files. -->
+- [Lab 1: Getting started in Linux](lab01)
+- [Lab 2: Quantum Espresso Input and Output](lab02)
+- [Lab 3: Converging your Calculations](lab03)
+- [Lab 4: The Electronic Band Structure and Density of States](lab04)
+- [Lab 5: Forces, Stresses and Structures](lab05)
+- [Lab 6: Vibrational Frequencies and Normal Modes](lab06)
+- [Lab 7: Finite Temperature Properties](lab07)
+- [Lab 8: Spin Polarization and Magnetic Systems](lab08)
+- [Lab 9: Optical Properties and Time-Dependent Density Functional Theory](lab09)
+
+Additional Material:
+
+- [Calculating Useful Properties from Total Energies](using_total_energies)
+- [Examining the Charge Density and Wavefunction](visualising_output)
+- [The Hydrogen Atom and Electron Spin](hydrogen_atom)
+- [The Tetrahedron Method for Densities of States](tetrahedron_method)
+- [Optical Properties and Time-Dependent Density Functional Theory](tddft)
+
+Extras:
+
+- [Setting up a virtual machine](vmsetup)
+- [More Useful Linux Commands](linuxcommands)
+- [Plotting with Gnuplot](gnuplot)
+- [Bash and Shell Scripting](shellscripting)
+- [Running in Parallel](running_in_parallel)
