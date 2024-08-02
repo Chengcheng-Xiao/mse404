@@ -42,7 +42,7 @@ theme:
         icon: material/weather-sunny #material/toggle-switch
         name: Switch to light mode
   logo: assets/IMPV2.svg
-  favicon: assets/favicon.ico
+  favicon: assets/favicon.png
   name: material
   language: 'en'
   font: false
