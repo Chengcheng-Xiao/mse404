@@ -108,13 +108,12 @@ plugins:
 
 nav:
   - Introduction: index.md
-  - Labs:
-    - Lab 1: labs/lab01/readme.md
-    - Lab 2: labs/lab02/readme.md
-    - Lab 3: labs/lab03/readme.md
-    - Lab 4: labs/lab04/readme.md
-    - Lab 5: labs/lab05/readme.md
-    - Lab 6: labs/lab06/readme.md
-    - Lab 7: labs/lab07/readme.md
-    - Lab 8: labs/lab08/readme.md
-    - Lab 9: labs/lab09/readme.md
+  - Lab 1: labs/lab01/readme.md
+  - Lab 2: labs/lab02/readme.md
+  - Lab 3: labs/lab03/readme.md
+  - Lab 4: labs/lab04/readme.md
+  - Lab 5: labs/lab05/readme.md
+  - Lab 6: labs/lab06/readme.md
+  - Lab 7: labs/lab07/readme.md
+  - Lab 8: labs/lab08/readme.md
+  - Lab 9: labs/lab09/readme.md
