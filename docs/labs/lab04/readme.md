@@ -1,14 +1,13 @@
-Solids and Electronic Band Structures
-=====================================
+Crystals and Electronic Band Structures
+=======================================
 
-This week we are going to start doing some calculations on solids, i.e. fully
-periodic systems. Many of the principles will be the same, but as you will
-see there are a few things that need to be done differently.
+This week we are going to start doing some calculations on solids, i.e.,
+periodic crystals. Many of the principles will be the same, but as you will see
+there are a few things that need to be done differently.
 
 ------------------------------------------------------------------------------
 
-Diamond
--------
+## Structure and Basic input for Solids
 
 As our first example of a solid we're going to look at diamond. You can find an
 annotated input file at [:link:
@@ -57,8 +56,9 @@ K_POINTS automatic !(3)
     grid size (`1 1 1` means to shift the grid by 1 grid point in each
     direction).
 
+## Periodic Boundary Conditions and Atomic Positions
 Absolute Cartesian coordinates $\mathbf{r}=[x,y,z]$ and fractional coordinates 
-$\mathbf{r}_f=[x_f,y_f,z_f]$ are related by the three lattce vectors
+$\mathbf{r}_f=(x_f,y_f,z_f)$ are related by the three lattce vectors
 $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
 
 $$
@@ -69,8 +69,8 @@ $$
 $$
 
 For diamond, which has the same atomic structure as Zinc Blende, we set
-`ibrav=2`, i.e. face-centred cubic (fcc) Bravais lattice. Internally, Quantum
-ESPRESSO sets the the fcc lattice vectors as:
+`ibrav=2`, i.e. face-centred cubic (fcc) Bravais lattice. Internally, with
+`ibrav=2`, Quantum ESPRESSO sets the the fcc lattice vectors as:
 
 $$
 \begin{align*}
@@ -79,6 +79,10 @@ $$
 \mathbf{v}_3 &= \frac{A}{2}(-1,1,0)
 \end{align*}
 $$
+
+!!! warning Note that we've just used the measured lattice constant `A`.
+    In later labs (or in production runs) we'll see how to find the lattice 
+    constant predicted by DFT.
 
 Under this basis, the fractional coordinates of the two carbon atoms are:
 
@@ -101,114 +105,53 @@ $$
 \end{align*}
 $$
 
-### Task 1 - Examining input & output files
+!!! example "Task 1 - Examining input & output files"
 
-Run the input file for diamond. There are a couple of extra things to notice in
-the output file:
+    Run the input file for diamond. There are a couple of extra things to notice in
+    the output file:
+    
+    - The output lists the automatically generated k-points. How many k-points are
+      there and why?
+    ??? success "Answer"
+        We have 10 here since crystal symmetries have been taken into account after
+        generating the 64 points on the 4x4x4 grid we requested.
+    - What are the eigenvalues and occupations?
+    ??? success "Answer"
+        For periodic systems, we have a set of band energies for each k-point. And
+        these are given in the output file:
+        ```
+        To be filled.
+        ```
 
-=== "Automatically generated K-point list"
-    The output lists the automatically generated k-points. How many k-points are
-    there and why?
-=== "Answer"
-    We have 10 here since crystal symmetries have been taken into account after
-    generating the 64 points on the 4x4x4 grid we requested.
-<br>
-=== "Eigenvalues and occupations"
-    The eigenvalues are output for each k-point.
-=== "Answer"
-    ```
-    To be filled.
-    ```
+## Convergence Tests
 
+One important difference between periodic crystals and molecules is that, due to
+periodic boundary conditions, the electronic states are not localised and need
+to be expressed in a Bloch form: 
 
-Silicon
--------
+$$
+\psi_{n\mathbf{k}}(\mathbf{r}) =
+e^{i\mathbf{k}\cdot\mathbf{r}}u_{n\mathbf{k}}(\mathbf{r}),
+$$
 
-Silicon crystallises in the same structure as diamond. So in this case, all we
-need to do is change the lattice length to the silicon value, and change the
-atoms from carbon to silicon. And of course we need to specify a silicon
-pseudopotential rather than use the carbon one. An example input file for the
-silicon can be found [:link: here](02_silicon/Si.in).:
+where the electronic states are labelled by both the band index $n$ and the
+k-point $\mathbf{k}$. $\mathbf{k}$ needs to be sampled over the entire Brillouin
+zone. Hence a convergence test with respect to the k-point sampling is also
+necessary for periodic systems.
 
-```fortran
-&CONTROL
-    pseudo_dir = '.'
-    disk_io = 'none'
- /
+!!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
- &SYSTEM
-    ibrav = 2
-    A = 5.431 !(1)
-    nat = 2
-    ntyp = 1
-    ecutwfc = 20.0 !(4)
- /
+    TODO: Expand this task.
+    
+    - Run the script and plot the convergence of total energy with respect to 
+      k-point sampling. 
+    
+    - For every periodic system you simulate, you should converge both the cut-off
+      energy and k-points. Try adapting one of the scripts from last week to also
+      converge the energy of silicon with respect to the cut-off energy. How does
+      the convergence behaviour of the two parameters compare?
 
- &ELECTRONS
-    conv_thr = 1.0E-6
- /
-
-ATOMIC_SPECIES
- Si  28.085  Si.pz-vbc.UPF !(2)
-
-ATOMIC_POSITIONS crystal
- Si 0.00 0.00 0.00
- Si 0.25 0.25 0.25
-
-K_POINTS automatic !(3)
-  4 4 4 1 1 1
-```
-
-1.  The lattice constant for silicon is 5.431 Å.
-2.  The atomic mass of silicon is 28.085 amu, and se use the pseudopotential
-    `Si.pz-vbc.UPF`.
-3.  We are using the same 4$\times$4$\times$4 k-point grid as for diamond.
-    This might not be the best choice for silicon, and a better choice can be
-    obatined by testing convergence with respect to k-point sampling.
-4.  We are using the same plane wave cut-off energy as for diamond. This might
-    not be the best choice for silicon, and a better choice can be obatined by
-    testing convergence with respect to the plane wave cut-off energy.
-
-
-
-!!! note
-    If you use `diff` you can see the differences between the [silicon input
-    file](02_silicon/Si.in) relative to the [carbon diamond input
-    file](01_carbon_diamond/C_diamond.in).  If you're in the `lab02` directory
-    remember you can type  `diff 01_carbon_diamond/C_diamond.in 02_silicon/Si.in`.
-    You'll be able to see that we've changed four lines in our input file and
-    everything else is the same. 
-
-So switching to a system with the same structure but different atoms can be 
-quite simple. 
-
-!!! warning 
-    Note that we've just used the measured lattice constant for both systems; 
-    In later labs (or in production runs) we'll see how to find the lattice 
-    constant predicted by DFT.
-
-For periodic systems it is important to test the convergence with respect to
-k-point sampling. The folder `02_silicon` contains a template file
-and script to check the convergence of the total energy with respect to the
-k-point sampling in silicon.
-
-
-### Task 2 - Convergence with respect to k-point sampling and cut-off energy
-
-TODO: Expand this task.
-
-- Run the script and plot the convergence of total energy with respect to 
-  k-point sampling. 
-
-- For every periodic system you simulate, you should converge both the cut-off
-  energy and k-points. Try adapting one of the scripts from last week to also
-  converge the energy of silicon with respect to the cut-off energy. How does
-  the convergence behaviour of the two parameters compare?
-
-------------------------------------------------------------------------------
-
-The Electronic Band Structure
------------------------------
+## The Electronic Band Structure
 
 While the electronic density obtained from DFT is meaningful, the Kohn-Sham
 states are not strictly the electronic states of the system. Nonetheless, they
@@ -226,73 +169,115 @@ a direct or indirect optical gap for example. For this we need to visualize
 how the energies of the states vary with k-point. The usual way this is done
 is to plot the band energies along lines between the various high-symmetry
 k-points in the Brillouin zone. The details of how this can be done is beyond
-the scope of this course, but an outline is given at the
-[end of this lab](#extra-high-symmetry-points).
-
-!!! note "High symmetry points"
-   If you have a particular structure and you want to find out which are the
-   important k-points, then [this
-   website](https://www.materialscloud.org/work/tools/seekpath) is a useful tool.
+the scope of this course, but an outline is given at [:link: here](../extras/labs/high_symmetry_points/readme.md).
 
 The directory `03_bandstructure/01_diamond` contains input files to calculate and
-plot the band structure of diamond.
+plot the band structure of diamond. This a four-step process:
 
-This a three step process:
+### Step 1 - SCF Calculation
+Calculate a converged density with a standard  self-consistent field (SCF)
+calculation. In this step, the charge density is optimized in order to
+minimize the total energy of the system. The input file can be found at
+[`01_C_diamond_scf.in`](03_bandstructure/01_diamond/01_C_diamond_scf.in). 
 
-1. Calculate a converged density with a standard  self-consistent field (SCF)
-   calculation. This means solving the Kohn-Sham (KS) equations on a uniform
-   k-grid self-consistently. At the ith-iteration we compute the electron
-   density `n^(i)` from the KS states and use this density to generate the KS
-   potential for the next iteration `V_KS^(i+1)` and solve KS equations with
-   this new potential. The loop is terminated when `|n^(i+1) - n^(i)| < thr`,
-   where `thr` is the required convergence threshold.
+!!! example "Task 3.1 - SCF Calculation"
+    Run the input file
+    [:link:01_C_diamond_scf.in](03_bandstructure/01_diamond/01_C_diamond_scf.in)
+    for diamond.
    
-2. Use that density to perform a non self-consistent (NSCF) calculation for
-   k-points along chosen high-symmetry lines. In a  NSCF calculation, the energy
-   is not minimised with respect to the electron density, instead to obtain the
-   KS energies and KS states for a particular k-point, one generates the KS
-   potential from the converged electron density (obtained in the SCF
-   calculation) and diagonalises the resulting KS Hamiltonian at that specific
-   k-point.
-3. Extract the energies from this calculation and convert it to a dataset we
-   can plot.
+### Step 2 - NSCF(bands) Calculation
+Use that density to perform a non self-consistent (NSCF) calculation for
+k-points along chosen high-symmetry lines. In a  NSCF calculation, the energy
+is not minimised as the charge density is read-in and kept fixed. Instead 
+KS energies and KS states for a particular k-point are calculated by
+diagonalizing the Hamiltonian generated by the charge density. 
 
-- We can do step 1 above exactly as previously, as you can see in
-  [`01_C_diamond_scf.in`](03_bandstructure/01_diamond/01_C_diamond_scf.in) but
-  for step 2, we'll need to pick some suitable high-symmetry points.
-- The diamond lattice is FCC. In
-  [`02_C_diamond_nscf.in`](03_bandstructure/01_diamond/02_C_diamond_nscf.in) we
-  have set up an input file with the path already set as `Γ-K-X-Γ'-L-X-W-L`
-  where `Γ'` indicates the gamma point in a different Brillouin zone. You
-  could use this same path for any other FCC system.
-- The other inputs that are changed in this file with respect to the scf
-  calculation.
-    - We set the `calculation = bands` for a band structure plot.
-    - We choose the `crystal_b` option for  the `K_POINTS` section. This means
-      that we will enter just the high-symmetry points and points in between
-      will automatically be generated. Then we give the number of high symmetry
-      points we'll enter with the coordinates of each in reciprocal lattice
-      coordinates followed by the number of points to generate between it and
-      the next point. Note, we have cut down the number of points for segments
-      that are shorter.
-- For the third step we'll be using the `bands.x` tool from the espresso
-  package. The input for this is
-  [`03_C_diamond_scf.in`](03_bandstructure/01_diamond/03_C_diamond_bands.in).
-  It has a single section: `BANDS`, and we can just accept all defaults. As
-  usual full details of the inputs and options are given in the
-  `INPUT_BANDS.txt` file in the quantum espresso documentation folder.
+For this to work, we need to choose a set of high symmetry k-points for
+carbon diamond. Since diamond has a face-centred cubic (FCC) lattice, we have
+chosen the path `Γ-K-X-Γ'-L-X-W-L` where `Γ'` indicates the gamma point in a
+different Brillouin zone.
 
-To perform the calculation, we run `pw.x` with the first two input files in
-turn. And then run `bands.x` with the third. There's a simple script provided
-as [`run_all.sh`](03_bandstructure/01_diamond/run_all.sh) that will explicitly
-run the three steps. The third step will produce several files, with different
-output formats. The one we'll use is `bands.out.gnu` which can be used easily
-with `gnuplot`.
+A brief overview of the 
+[:link: input file](03_bandstructure/01_diamond/02_C_diamond_nscf.in) is 
+given below:
 
-We have also set up a script file for gnuplot as
-[`plotbands.gplt`](02_bandstructure/01_diamond/plotbands.gplt):
+```fortran
+&CONTROL
+ pseudo_dir = '.'
+ calculation = 'bands' !(1)
+/
 
+&SYSTEM
+   ibrav =  2
+   A = 3.567
+   nat =  2
+   ntyp = 1
+   ecutwfc = 30.0
+   ! Add 4 conduction bands also
+   nbnd = 8 !(2)
+/
+
+&ELECTRONS
+/
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+
+ATOMIC_POSITIONS crystal
+ C 0.00 0.00 0.00
+ C 0.25 0.25 0.25
+
+# Path here goes: G K X G' L X W L
+K_POINTS crystal_b !()
+  8
+  0.000 0.000 0.000 30
+  0.375 0.375 0.750 10
+  0.500 0.500 1.000 30
+  1.000 1.000 1.000 30
+  0.500 0.500 0.500 30
+  0.000 0.500 0.500 30
+  0.250 0.500 0.750 30
+  0.500 0.500 0.500 0
 ```
+
+1.  `calculation = bands` specifies that we are calculating the band
+    structure.
+2.  `nbnd = 8` specifies that we want to calculate 8 bands. 4 more bands than
+    the default value of 4.
+3. `K_POINTS crystal_b` specifies that we are using the high symmetry k-points
+    in the reciprocal lattice coordinates. The number of high symmetry points
+    is given as 8, followed by the coordinates of each point and the number of
+    points to generate between it and the next point.
+
+!!! example "Task 3.2 - NSCF Calculation"
+    Run the input file
+    [:link:02_C_diamond_nscf.in](03_bandstructure/01_diamond/02_C_diamond_nscf.in)
+    for diamond.
+
+### Step 3 - Extracting Band Energies
+Extract the energies from this calculation and convert it to a dataset we
+can plot.
+
+To do this, we use the `bands.x` tool from the Quantum Espresso package.
+The [:link: input file](03_bandstructure/01_diamond/03_C_diamond_bands.in)
+for this contains only a `BANDS` section. For more fine-grained control
+please refer to 
+[:link: bands.x input description](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html).
+
+!!! example "Task 3.3 - Extracting band energies"
+    Run the input file
+    [:link:03_C_diamond_bands.in](03_bandstructure/01_diamond/03_C_diamond_bands.in)
+    for diamond.
+
+### Step 4 - Plotting the Band Structure
+Plot the band structure. The band structure is usually plotted with the
+energy on the y-axis and the high symmetry points on the x-axis. The
+energy is usually shifted so that the valence band maximum is at 0 eV.
+The directory `03_bandstructure/01_diamond` contains a gnuplot script
+[`plotbands.gplt`](03_bandstructure/01_diamond/plotbands_shifted.gplt) that can be
+used to plot the band structure:
+
+``` gnuplot
 set encoding utf8 # This lets us use the Gamma symbol directly
 
 # The locations of the tics are given in the output of the bands.x calculation
@@ -309,135 +294,197 @@ set ylabel "Energy (eV)"
 set title "Carbon Diamond Electronic Band Structure"
 
 # This tells gnuplot to plot all the points from this file connected with lines
-plot "bands.out.gnu" with lines
+# We modify the y values to shift the valence band max at gamma to 0.
+plot "bands.out.gnu" using 1:($2-13.993) with lines !(1)
 
 # And if you run this script directly as an argument to gnuplot, rather than
 # by loading it within gnuplot, you can uncomment the following to keep the
 # plot window open until clicked. You can save to a file from here.
-pause mouse
+# pause mouse
+
+set term pdf
+set output "C_diamond_bands.pdf"
+replot
 ```
 
-The `bands.x` calculation sets the x-axis scale so that the distance between
-high symmetry points corresponds to the actual Cartesian distance between the
-points. To find the x-coordinates for the high-symmetry points you can check
-the output of the `bands.x` calculation. Note in this case it doesn't detect
-`K` as a high-symmetry point so we need to add that in ourselves. If you
-examine the points given in the second input, you'll see the chosen
-gamma to `K` to `X` path is actually a single straight line in reciprocal
-space, so we can find where `K` should fall along this path.
-
-You can bring up the gnuplot graph with `gnuplot plotbands.gplt`. You'll
-notice we still need to shift the vertical axis to put the valence band
-maximum at 0. There's a second gnuplot script called
-[`plotbands_shifted.gplt`](02_bandstructure/01_diamond/plotbands_shifted.gplt)
-where you can see how this could be done with gnuplot. As we could see the
-valence band max was at gamma (the first point on our path), we could read the
+The valence band max was at gamma (the first point on our path), we could read the
 value of the energy at this point from one of the other output files,
-`bands.out`.
+`bands.out`. And here we shift the entire spectrum so that this point is at
+0 eV using `($2-13.993)`.
 
-### Task - Generating and plotting band structure
+!!! example "Task 3.4 - Plotting the band structure"
+    Run the gnuplot script
+    [:link:plotbands.gplt](03_bandstructure/01_diamond/plotbands.gplt)
+    to plot the band structure of diamond.
 
-- Follow the above steps to generate a plot of the electronic band structure of
-  diamond.
 
-- Generate a plot of the electronic band structure of silicon. Note this has
-  an fcc Bravais lattice as did carbon diamond, so you can use the same set of
-  high symmetry k-points for your plot.
 
-------------------------------------------------------------------------------
-
-Density of States
------------------
+## Density of States
 
 Now let's analyse the electronic states by  computing the density of states
 (DOS). This is a little easier to visualise and shows how many electronic states
 (in fact Kohn-Sham states for our DFT calculation) are at a given energy. More
 precisely, the DOS tells us how many electronic states, for a system of volume
 V, can be occupied in a small (infinitesimal) energy range near a specific
-energy. The DOS is directly related to the band structure as high DOS at a
-specific energy level means that a large number of electronic states can be
-occupied. Hence, bands with large energy dispersion in the Brillouin zone result
+energy. 
+
+The DOS is directly related to the band structure as:
+
+$$
+\mathrm{DOS}(E) = \sum_{n} \int  \delta(E - \epsilon_{n\mathbf{k}}) d\mathbf{k}
+$$
+
+where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
+k-point $\mathbf{k}$.
+
+Hence, bands with large energy dispersion in the Brillouin zone result
 in low DOS, whereas less dispersive (more flat) bands result in high DOS. In
 insulators and semiconductors the DOS is zero inside the band gap, as there are
 no available states in that energy range. In a similar way to the electronic
 band structure, we produce the density of states plot in three steps.
 
-1. Perform a self consistent calculation as before, producing a converged
-   charge density.
-2. Take the density calculated calculated in the previous step and use it to
-   perform a non-self-consistent calculation on a more dense grid of k-points.
-   We want a good representation of how the state energies vary as we move
-   around the Brillouin zone so we use a much denser grid here than we need
-   to obtain a converged density in the previous step.
-3. Convert the state energies calculated on this dense k-point grid to a
-   density of states.
-    - Since we still only have a representation of the state energies at a
-      fixed set of points in reciprocal space, we need to interpolate between
-      them in some sensible way if we turn this into a count of the total
-      number of states at an arbitrary energy.
-    - The most common way this is done is to use some energy broadening
-      scheme. Then the number of states at some arbitrary energy is given as
-      the sum over energies at the calculated k-points times some weighting
-      given by the broadening. In practice this is quite fast and
-      straight-forward, although you'll need to tune the broadening energy so
-      that your calculated density of states is smooth in the correct way.
-      - If you use too large a broadening, you may smear out important
-        features.
-      - If you use too small a broadening you may introduce spurious features
-        and your density of states plot will look very bumpy.
-      - In principle you would want the smearing to be comparable to the
-        typical change in energy of a state from a k-point to its neighbours.
-        In practice though it's easiest to just try different values until it
-        looks right.
-    - The other way to interpolate is to use the so-called tetrahedron method.
-      Essentially this corresponds to doing a three dimensional linear
-      interpolation from a regular grid of values. This calculation can be
-      noticeably slower than using a broadening but there is no need to to
-      worry about using the correct smearing. The density of states will
-      simply become more finely featured as you increase the density of the
-      k-point grid in the non-self-consistent calculation.
-    - It's important to note that in a real measurement of the density of
-      states of a system the there is an implicit broadening that comes from
-        1. Electron-phonon coupling: the states are not simply at a fixed
-        energy, but will have some distribution as the atoms vibrate.
-        2. Any measurement probe will have a finite energy width associated
-        with it, which will limit how finely it can resolve density of states
-        features.
-    - So while tetrahedron may seem the more accurate approach, you shouldn't
-      necessarily think of it as a more correct representation of a real
-      system.
+In pratice, since we can only have a finite sampling of the Brillouin zone we
+need to interpolate between them in some sensible way if we turn this into a
+count of the total number of states at an arbitrary energy.
 
-The directory `04_densityofstates/01_diamond` contains an example set of input
-files to calculate the density of states for diamond following these three
-steps, and using a Gaussian broadening for the density of states calculation.
+The most common way this is done is to use some energy broadening
+scheme. By boradening the delta function, we can include some contributions from
+k-points that we missed. In practice this is quite fast and straight-forward,
+although you'll need to tune the broadening energy so that your calculated
+density of states is smooth in the correct way: 
 
-1. [`01_C_diamond_scf.in`](04_densityofstates/01_diamond/01_C_diamond_scf.in)
-   is a usual scf input file for diamond as you have seen before.
-2. [`02_C_diamond_nscf.in`](04_densityofstates/01_diamond/02_C_diamond_nscf.in)
-   is the input file for the non-self-consistent calculation with `pw.x`.
-   Compared to the scf calculation we've changed the following:
-    - We need to change the calculation type to nscf with `calculation = nscf`
-    - We've increased the number of bands here to 8 (`pw.x` will just include
-      enough bands for the occupied states in an insulator or semiconductor by
-      default, and we'd like to see some of the conduction band density of
-      states too).
-    - We've increased the k-point sampling to a 20x20x20 grid, and we have
-      removed the shift. Many systems have a valence band maximum or
-      conduction band minimum at the gamma point, so it is good to ensure it's
-      explicitly included in the grid.
-3. [`03_C_diamond_dos.in`](04_densityofstates/01_diamond/03_C_diamond_dos.in)
-   is the input file for `dos.x`. This code input file requires just a `DOS`
-   section. Here we've specified the Gaussian broadening to use with `degauss`
-   **in Rydberg**. We also specify `DeltaE` which is the spacing between
-   points in the output file, **in eV**. Note - we've picked values for these
-   of similar magnitude despite their different units. In fact if `degauss`
-   is not specified, and no broadening scheme is used in the DFT calculation,
-   `degauss` will take the value of `DeltaE` by default. You can check the
-   documentation file `INPUT_DOS.txt` for more details.
+- If you use too large a broadening, you may smear out important
+  features.
+- If you use too small a broadening you may introduce spurious features
+  and your density of states plot will look very bumpy.
+- In principle you would want the smearing to be comparable to the
+  typical change in energy of a state from a k-point to its neighbours.
+  In practice though it's easiest to just try different values until it
+  looks right.
 
-Now we need to run all three inputs, the first two with `pw.x` and the third
-with `dos.x`. There's a simple script to do these three steps explicitly
-in [`run_all.sh`](04_densityofstates/01_diamond/run_all.sh).
+
+!!! note "Tetrahedron Method"
+    The other way to interpolate is to use the so-called tetrahedron method.
+    Essentially this corresponds to doing a three dimensional linear
+    interpolation from a regular grid of values. This calculation can be
+    noticeably slower than using a broadening but there is no need to to worry
+    about using the correct smearing. The density of states will simply become
+    more finely featured as you increase the density of the k-point grid in the
+    non-self-consistent calculation.
+
+    It's important to note that in a real measurement of the density of
+    states of a system the there is an implicit broadening that comes from
+
+      1. Electron-phonon coupling: the states are not simply at a fixed
+      energy, but will have some distribution as the atoms vibrate.
+
+      2. Any measurement probe will have a finite energy width associated
+      with it, which will limit how finely it can resolve density of states
+      features.
+
+    So while tetrahedron may seem the more accurate approach, you shouldn't
+    necessarily think of it as a more correct representation of a real
+    system.
+
+
+### Step 1 - SCF Calculation
+Perform a self consistent calculation as before, producing a converged
+charge density.
+
+!!! example "Task 4.1 - SCF Calculation"
+    Run the input file
+    [:link:01_C_diamond_scf.in](04_densityofstates/01_diamond/01_C_diamond_scf.in)
+    for diamond.
+
+### Step 2 - NSCF Calculation
+Take the density calculated calculated in the previous step and use it to
+perform a non-self-consistent calculation on a more dense grid of k-points.
+We want a good representation of how the state energies vary as we move
+around the Brillouin zone so we use a much denser grid here than we need
+to obtain a converged density in the previous step.
+
+The difference between this and the band structure calculation is that here
+we use a uniform sampling of the Brillouin zone, rather than a path between
+k-points. The input file for this calculation can be found at
+[`02_C_diamond_nscf.in`](04_densityofstates/01_diamond/02_C_diamond_nscf.in):
+
+```fortran
+ &CONTROL
+    pseudo_dir = '.'
+    calculation = 'nscf' !(1)
+ /
+
+ &SYSTEM
+    ibrav =  2
+    A = 3.567
+    nat =  2
+    ntyp = 1
+    ecutwfc = 60.0
+    ! Add 4 conduction bands also
+    nbnd = 8 !(2)
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+
+ATOMIC_POSITIONS crystal
+ C 0.00 0.00 0.00
+ C 0.25 0.25 0.25
+
+K_POINTS automatic !(3)
+  20 20 20  0 0 0
+```
+
+1.  `calculation = nscf` specifies that we are calculating the non-self-consistent
+    calculation.
+2.  `nbnd = 8` specifies that we want to calculate 8 bands.
+3.  `K_POINTS automatic` specifies that we are using an automatically generated
+    k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and we have
+    removed the shift. Many systems have a valence band maximum or
+    conduction band minimum at the gamma point, so it is good to ensure it's
+    explicitly included in the grid.
+
+!!! example "Task 4.2 - NSCF Calculation"
+    Run the input file
+    [:link:01_C_diamond_scf.in](04_densityofstates/01_diamond/02_C_diamond_nscf.in)
+    for diamond.
+
+### Step 3 - Density of States Calculation
+Convert the state energies calculated on this dense k-point grid to a
+density of states using `dos.x`. 
+[`03_C_diamond_dos.in`](04_densityofstates/01_diamond/03_C_diamond_dos.in) is
+the input file for `dos.x`. This code input file requires just a `DOS`
+section:
+
+```fortran
+ &DOS
+  degauss = 0.03 !(1)
+  DeltaE = 0.1 !(2)
+ /
+```
+
+1.  `degauss` specifies the Gaussian broadening to use in the density of states
+    calculation. This is in Rydberg.
+2.  `DeltaE` specifies the spacing between points in the output file, in eV.
+
+!!! note
+    we've picked values for these of similar magnitude despite their different 
+    units. In fact if `degauss` is not specified, and no broadening scheme is 
+    used in the DFT calculation, `degauss` will take the value of `DeltaE` by 
+    default. You can check the documentation file `INPUT_DOS.txt` for more 
+    details.
+
+!!! example "Task 4.3 - Density of States Calculation"
+    Run the input file
+    [:link:03_C_diamond_dos.in](04_densityofstates/01_diamond/03_C_diamond_dos.in)
+    for diamond.
+
+<!-- Now we need to run all three inputs, the first two with `pw.x` and the third -->
+<!-- with `dos.x`. There's a simple script to do these three steps explicitly -->
+<!-- in [`run_all.sh`](04_densityofstates/01_diamond/run_all.sh). -->
 
 The final step produces a file named `pwscf.dos` by default. This is a
 simple text file you can plot in whatever software you like. It has three
@@ -447,8 +494,8 @@ columns:
 2. Density of States (states/eV)
 3. Integrated Density of States (states)
 
-**It is customary to shift the x-axis in the plot such that the Fermi energy
-or valence band max is at 0.** While a value for the Fermi level is given in
+It is customary to shift the x-axis in the plot such that the Fermi energy
+or valence band max is at 0. While a value for the Fermi level is given in
 the file header of the generated `pwscf.dos`, this is determined in a simple
 way from the integrated density of states. It may be worth obtaining this from
 a separate calculation using a relatively small broadening if you're looking a
@@ -456,12 +503,12 @@ metallic system, while for semiconductors and insulators you could find the
 maximum valence band state energy manually. If you're plotting in gnuplot you
 can shift the x-axis origin within the plot command:
 
-```
+``` gnuplot
 plot "pwscf.dos" using ($1-13.180):2 with lines
 ```
 Where we have used 13.180 as the value of the Fermi energy. If you want to
 plot the integrated DOS using the right hand axis you can do the following:
-```
+``` gnuplot
 set ytics nomirror
 set y2tics
 set xlabel "Energy (eV)"
@@ -472,18 +519,6 @@ plot "pwscf.dos" using ($1-13.180):2 with lines title "Density of States", \
      "pwscf.dos" using ($1-13.180):3 axes x1y2 with lines title \
      "Integrated density of states"
 ```
-
-### _Task_
-
-- Calculate and plot the density of states and  integrated density of states for
-  diamond.
-
-### _Optional Task_
-
-- Calculate and plot the density of states and integrated density of states
-  for silicon, making sure to shift the 0 of the x-axis to be the highest
-  energy in the valence bands. Save it as a png graphic.
-    - How does this compare to the density of states for carbon diamond?
 
 ------------------------------------------------------------------------------
 
@@ -503,65 +538,3 @@ Summary
   from a DFT calculation do not correspond to the real interacting electron
   energy levels, but are often useful as a first approximation.
 
-------------------------------------------------------------------------------
-
-### Extra: High Symmetry Points
-
-Finding appropriate high symmetry points and their labels for a band structure
-plot is beyond the scope of this course, but generally you need to find the
-Brillouin zone for the system you're interested in, along with the names of
-the high symmetry points, and how these should be represented in terms of your
-reciprocal lattice vectors.
-
-These can often be looked up in a table for a given structure, while keeping
-in mind that even for the same structure you may come across papers where some
-zone boundary high symmetry points will be labelled differently. You can
-access these tables online at e.g. the [Library of Crystallographic
-Prototypes](http://aflow.org/CrystalDatabase/) by typing the name of the
-mineral into the search box. This will give you the space group number, which
-you could then use with e.g. the [Bilbao Crystallographic
-Server](http://www.cryst.ehu.es/) to find the reciprocal space coordinates of
-the high symmetry points and their labels. Another good reference is [TU
-Graz](http://lampx.tugraz.at/~hadley/ss1/bzones) which has nice interactive
-visualizations of the most common types along with their labels.
-
-For the diamond lattice example, we might do this as follows:
-
-- The diamond lattice is FCC. We can find find the space group number from
-  <http://aflow.org/CrystalDatabase/A_cF8_227_a.html> and see that it is
-  number 227.
-- We can enter this number at <http://www.cryst.ehu.es/cryst/get_kvec.html>
-  and find several high symmetry points. Often, you'll want to pick the same
-  path that was chosen in some previous work to ensure you can reproduce it
-  correctly. In
-  [`02_C_diamond_nscf.in`](03_bandstructure/01_diamond/02_C_diamond_nscf.in) we
-  have set up an input file for the path `Γ-K-X-Γ'-L-X-W-L` where `Γ'`
-  indicates the gamma point in a different Brillouin zone. Note - these
-  labels don't exactly match points given in the table. Many points have
-  a number of equivalent positions on the Brillouin zone surface, and often
-  different conventions can be used for different materials with the same
-  structure.
-
-
-### Extra: Electronic states of molecules
-
-We have already seen the occupied energy levels for molecules, but it is
-also possible to calculate unoccupied states, just as with solids, except we
-only have a single set of energy levels. So we don't need to calculate
-anything like an electronic band structure or a density of states. If you
-recall our methane example previously, we just calculated the states at the
-gamma point. To find the energies of these states we can just read the output
-files from a `pw.x` scf calculation directly.
-
-The directory [`05_state_energies/01_methane`](05_state_energies/01_methane)
-has an example
-[`input file for methane`](05_state_energies/01_methane/CH4.in). There are no
-new inputs used here; we perform the calculations as we've done previously
-except that we add two additional states to the calculation (the default would
-give us just the four doubly occupied orbitals) using the keyword `nbnd`.
-
-Run the calculation as usual, and you'll see in the output just before the
-total energy, the highest occupied and lowest unoccupied level energies are
-given in eV. And the energies of each band are given just above this. We can
-use this to estimate the [HOMO-LUMO](https://en.wikipedia.org/wiki/HOMO/LUMO)
-gap as the difference between these two values.
