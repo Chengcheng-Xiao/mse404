@@ -134,14 +134,54 @@ $$
             We have 10 here since crystal symmetries have been taken into 
             account after generating the 64 points on the 4x4x4 grid we
             requested.
+
     - What are the eigenvalues and occupations?
 
         ??? success "Answer"
             For periodic systems, we have a set of band energies for each 
             k-point. And these are given in the output file:
             ```
-            TODO: To be filled.
+                  k =-0.1250 0.1250 0.1250 (   116 PWs)   bands (ev):
+        
+            -7.3461  11.5621  13.5410  13.5410
+        
+                  k =-0.3750 0.3750-0.1250 (   116 PWs)   bands (ev):
+        
+            -5.1246   6.0725   9.6342  12.3836
+        
+                  k = 0.3750-0.3750 0.6250 (   117 PWs)   bands (ev):
+        
+            -2.0454   1.1023   9.9094  10.6497
+        
+                  k = 0.1250-0.1250 0.3750 (   120 PWs)   bands (ev):
+        
+            -6.2574   8.8031  11.2205  12.0763
+        
+                  k =-0.1250 0.6250 0.1250 (   118 PWs)   bands (ev):
+        
+            -4.0419   6.4510   8.7237   9.1414
+        
+                  k = 0.6250-0.1250 0.8750 (   111 PWs)   bands (ev):
+        
+             0.0174   2.6697   5.4037   7.5509
+        
+                  k = 0.3750 0.1250 0.6250 (   115 PWs)   bands (ev):
+        
+            -2.9709   4.0228   7.6281   9.9651
+        
+                  k =-0.1250-0.8750 0.1250 (   114 PWs)   bands (ev):
+        
+            -0.7739   3.2191   6.5088   8.0627
+        
+                  k =-0.3750 0.3750 0.3750 (   114 PWs)   bands (ev):
+        
+            -4.0297   3.1416  11.7036  11.7036
+        
+                  k = 0.3750-0.3750 1.1250 (   114 PWs)   bands (ev):
+        
+            -1.0562   2.2032   6.0516   9.9570
             ```
+
 
 ## Convergence Tests
 
@@ -167,7 +207,9 @@ necessary for periodic systems.**
       k-point sampling. 
 
         ??? success "Result"
-            TODO: add pic here
+            <figure markdown="span">
+              ![Diamond primitive cell](assets/convergence.png){ width="500" }
+            </figure>
     
     - For every periodic system you simulate, you should converge both the
       cut-off energy and k-points. Try adapting one of the scripts from last
@@ -175,9 +217,32 @@ necessary for periodic systems.**
       energy. How does the convergence behaviour of the two parameters compare?
 
         ??? success "Answer"
+            An example script to do this is given below:
+
+            ```bash
+            #!/bin/bash
+            
+            template="C_diamond_base_kE.in"
+            repstr_k="xxxx"
+            repstr_E="eeee"
+            
+            for val_k in {02..10..2}
+            do
+            for val_E in {20..100..20}
+            do
+              echo "Running for k = $val_k and E = $val_E"
+              inp="C_diamond_${val_k}_${val_E}.in"
+              # We add the g here to replace every entry on the line.
+              sed "s/$repstr_k/$val_k/g" $template > $inp
+              sed -i "s/$repstr_E/$val_E/g" $inp
+              pw.x < $inp &> ${inp%.*}.out_conv_kE
+            done
+            done
+            
+            awk '/number of k points/{nkpt=$5}/kinetic-energy cutoff/{ekin=$4}
+                 /^!.*total/{print nkpt, ekin, $5}' *out_conv_kE > etot_v_nkpt_ekin.dat
             ```
-            TODO Add script here.
-            ```
+            The total energy converges as the two parameters are increased.
 
 ## The Electronic Band Structure
 
@@ -347,10 +412,9 @@ using `($2-13.993)`.
     to plot the band structure of diamond.
 
     ??? success "Final result"
-        TODO: Insert final result.
-
-
-
+        <figure markdown="span">
+          ![Diamond primitive cell](assets/band_structure.png){ width="500" }
+        </figure>
 
 ## Density of States
 
@@ -560,7 +624,9 @@ plot "pwscf.dos" using ($1-13.180):2 with lines title "Density of States", \
     Plot the density of states using the script provided.
 
     ??? success "Final result"
-        TODO: Insert final result.
+        <figure markdown="span">
+          ![Diamond primitive cell](assets/dos.png){ width="500" }
+        </figure>
 
 ------------------------------------------------------------------------------
 
