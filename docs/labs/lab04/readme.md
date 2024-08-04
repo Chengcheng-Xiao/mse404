@@ -94,7 +94,8 @@ $$
 \end{align*}
 $$
 
-!!! warning Note that we've just used the measured lattice constant `A`.
+!!! warning 
+    Note that we've just used the measured lattice constant `A`.
     In later labs (or in production runs) we'll see how to find the lattice 
     constant predicted by DFT.
 
@@ -199,10 +200,13 @@ k-point $\mathbf{k}$. $\mathbf{k}$ needs to be sampled over the entire Brillouin
 zone. **Hence a convergence test with respect to the k-point sampling is also
 necessary for periodic systems.**
 
+To test the convergence with respect to the k-point sampling, we need to
+calculate the total energy for different k-point grid densities. The directory
+`02_convergence` contains input files and script `k_conv.sh` that
+does this.
+
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
-    TODO: Expand this task.
-    
     - Run the script and plot the convergence of total energy with respect to 
       k-point sampling. 
 
@@ -211,10 +215,10 @@ necessary for periodic systems.**
               ![Diamond primitive cell](assets/convergence.png){ width="500" }
             </figure>
     
-    - For every periodic system you simulate, you should converge both the
-      cut-off energy and k-points. Try adapting one of the scripts from last
-      week to also converge the energy of silicon with respect to the cut-off
-      energy. How does the convergence behaviour of the two parameters compare?
+    - For every periodic system you simulate, you should converge **both** the
+      cut-off energy and k-points. Try adapting one of the scripts to also 
+      converge the energy of silicon with respect to the cut-off energy. How 
+      does the convergence behaviour of the two parameters compare?
 
         ??? success "Answer"
             An example script to do this is given below:
@@ -226,14 +230,13 @@ necessary for periodic systems.**
             repstr_k="xxxx"
             repstr_E="eeee"
             
-            for val_k in {02..10..2}
+            for val_k in {02..10..2} #(1)!
             do
-            for val_E in {20..100..20}
+            for val_E in {20..100..20} #(2)!
             do
               echo "Running for k = $val_k and E = $val_E"
               inp="C_diamond_${val_k}_${val_E}.in"
-              # We add the g here to replace every entry on the line.
-              sed "s/$repstr_k/$val_k/g" $template > $inp
+              sed "s/$repstr_k/$val_k/g" $template > $inp #(3)!
               sed -i "s/$repstr_E/$val_E/g" $inp
               pw.x < $inp &> ${inp%.*}.out_conv_kE
             done
@@ -242,7 +245,13 @@ necessary for periodic systems.**
             awk '/number of k points/{nkpt=$5}/kinetic-energy cutoff/{ekin=$4}
                  /^!.*total/{print nkpt, ekin, $5}' *out_conv_kE > etot_v_nkpt_ekin.dat
             ```
-            The total energy converges as the two parameters are increased.
+
+            1.  This loop will run for k-points from 2 to 10 in steps of 2.
+            2.  This loop will run for cut-off energies from 20 to 100 in steps
+                of 20.
+            3.  `g` here means to replace every entry on the line (global).
+
+            You can change the range of k-points and cut-off energies yourself.
 
 ## The Electronic Band Structure
 
@@ -265,18 +274,18 @@ k-points in the Brillouin zone. The details of how this can be done is beyond
 the scope of this course, but an outline is given 
 [:link: here](../extras/labs/high_symmetry_points/readme.md).
 
-The directory `03_bandstructure/01_diamond` contains input files to calculate and
+The directory `03_bandstructure` contains input files to calculate and
 plot the band structure of diamond. This a four-step process:
 
 ### Step 1 - SCF Calculation
 Calculate a converged density with a standard  self-consistent field (SCF)
 calculation. In this step, the charge density is optimized in order to
 minimize the total energy of the system. The input file can be found at
-[:link:01_C_diamond_scf.in](03_bandstructure/01_diamond/01_C_diamond_scf.in). 
+[:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in). 
 
 !!! example "Task 3.1 - SCF Calculation"
     Run the input file
-    [:link:01_C_diamond_scf.in](03_bandstructure/01_diamond/01_C_diamond_scf.in)
+    [:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in)
     for diamond.
    
 ### Step 2 - NSCF(bands) Calculation
@@ -292,7 +301,7 @@ chosen the path `Γ-K-X-Γ'-L-X-W-L` where `Γ'` indicates the gamma point in a
 different Brillouin zone.
 
 A brief overview of the 
-[:link: input file](03_bandstructure/01_diamond/02_C_diamond_nscf.in) is 
+[:link: input file](03_bandstructure/02_C_diamond_nscf.in) is 
 given below:
 
 ```python
@@ -345,7 +354,7 @@ K_POINTS crystal_b #(3)!
 
 !!! example "Task 3.2 - NSCF Calculation"
     Run the input file
-    [:link:02_C_diamond_nscf.in](03_bandstructure/01_diamond/02_C_diamond_nscf.in)
+    [:link:02_C_diamond_nscf.in](03_bandstructure/02_C_diamond_nscf.in)
     for diamond.
 
 ### Step 3 - Extracting Band Energies
@@ -353,22 +362,22 @@ Extract the energies from this calculation and convert it to a dataset we can
 plot.
 
 To do this, we use the `bands.x` tool from the Quantum Espresso package.
-The [:link: input file](03_bandstructure/01_diamond/03_C_diamond_bands.in)
+The [:link: input file](03_bandstructure/03_C_diamond_bands.in)
 for this contains only a `BANDS` section. For more fine-grained control
 please refer to 
 [:link: bands.x input description](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html).
 
 !!! example "Task 3.3 - Extracting band energies"
     Run the input file
-    [:link:03_C_diamond_bands.in](03_bandstructure/01_diamond/03_C_diamond_bands.in)
+    [:link:03_C_diamond_bands.in](03_bandstructure/03_C_diamond_bands.in)
     for diamond.
 
 ### Step 4 - Plotting the Band Structure
 Plot the band structure. The band structure is usually plotted with the energy
 on the y-axis and the high symmetry points on the x-axis. The energy is usually
 shifted so that the valence band maximum is at 0 eV. The directory
-`03_bandstructure/01_diamond` contains a gnuplot script
-[:link:plotbands.gplt](03_bandstructure/01_diamond/plotbands_shifted.gplt) that
+`03_bandstructure` contains a gnuplot script
+[:link:plotbands.gplt](03_bandstructure/plotbands_shifted.gplt) that
 can be used to plot the band structure:
 
 ``` gnuplot
@@ -408,7 +417,7 @@ using `($2-13.993)`.
 
 !!! example "Task 3.4 - Plotting the band structure"
     Run the gnuplot script
-    [:link:plotbands.gplt](03_bandstructure/01_diamond/plotbands.gplt)
+    [:link:plotbands.gplt](03_bandstructure/plotbands.gplt)
     to plot the band structure of diamond.
 
     ??? success "Final result"
@@ -491,7 +500,7 @@ charge density.
 
 !!! example "Task 4.1 - SCF Calculation"
     Run the input file
-    [:link:01_C_diamond_scf.in](04_densityofstates/01_diamond/01_C_diamond_scf.in)
+    [:link:01_C_diamond_scf.in](04_densityofstates/01_C_diamond_scf.in)
     for diamond.
 
 ### Step 2 - NSCF Calculation
@@ -504,7 +513,7 @@ to obtain a converged density in the previous step.
 The difference between this and the band structure calculation is that here
 we use a uniform sampling of the Brillouin zone, rather than a path between
 k-points. The input file for this calculation can be found at
-[:link:02_C_diamond_nscf.in](04_densityofstates/01_diamond/02_C_diamond_nscf.in):
+[:link:02_C_diamond_nscf.in](04_densityofstates/02_C_diamond_nscf.in):
 
 ```python
  &CONTROL
@@ -547,13 +556,13 @@ K_POINTS automatic #(3)!
 
 !!! example "Task 4.2 - NSCF Calculation"
     Run the input file
-    [:link:01_C_diamond_scf.in](04_densityofstates/01_diamond/02_C_diamond_nscf.in)
+    [:link:01_C_diamond_scf.in](04_densityofstates/02_C_diamond_nscf.in)
     for diamond.
 
 ### Step 3 - Density of States Calculation
 Convert the state energies calculated on this dense k-point grid to a
 density of states using `dos.x`. 
-[:link:03_C_diamond_dos.in](04_densityofstates/01_diamond/03_C_diamond_dos.in)
+[:link:03_C_diamond_dos.in](04_densityofstates/03_C_diamond_dos.in)
 is the input file for `dos.x`. This code input file requires just a `DOS`
 section:
 
@@ -577,12 +586,12 @@ section:
 
 !!! example "Task 4.3 - Density of States Calculation"
     Run the input file
-    [:link:03_C_diamond_dos.in](04_densityofstates/01_diamond/03_C_diamond_dos.in)
+    [:link:03_C_diamond_dos.in](04_densityofstates/03_C_diamond_dos.in)
     for diamond.
 
 <!-- Now we need to run all three inputs, the first two with `pw.x` and the third -->
 <!-- with `dos.x`. There's a simple script to do these three steps explicitly -->
-<!-- in [`run_all.sh`](04_densityofstates/01_diamond/run_all.sh). -->
+<!-- in [`run_all.sh`](04_densityofstates/run_all.sh). -->
 
 The final step produces a file named `pwscf.dos` by default. This is a
 simple text file you can plot in whatever software you like. It has three
