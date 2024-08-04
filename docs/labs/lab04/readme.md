@@ -202,13 +202,14 @@ necessary for periodic systems.**
 
 To test the convergence with respect to the k-point sampling, we need to
 calculate the total energy for different k-point grid densities. The directory
-`02_convergence` contains input files and script `k_conv.sh` that
+`02_convergence` contains input files and script [:link:
+k_conv.sh](02_convergence/k_conv.sh) that
 does this.
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
-    - Run the script and plot the convergence of total energy with respect to 
-      k-point sampling. 
+    - Understand and run the script, and plot the convergence of total energy 
+      with respect to k-point sampling. 
 
         ??? success "Result"
             <figure markdown="span">
@@ -265,17 +266,17 @@ sampled k-point grid density. And you'll have seen in the calculations you
 have done that the calculated eigenvalues are a bit different at each
 calculated k-point. 
 
-Examining how the state energies change from one k-point
-to the next can tell us useful things such as if a material is likely to have
-a direct or indirect optical gap for example. For this we need to visualize
-how the energies of the states vary with k-point. The usual way this is done
-is to plot the band energies along lines between the various high-symmetry
-k-points in the Brillouin zone. The details of how this can be done is beyond
-the scope of this course, but an outline is given 
-[:link: here](../extras/labs/high_symmetry_points/readme.md).
+Examining how the state energies change from one k-point to the next can tell us
+useful things such as if a material is likely to have a direct or indirect
+optical gap for example. For this we need to visualize how the energies of the
+states vary with k-point. The usual way this is done is to plot the band
+energies along lines between the various high-symmetry k-points in the Brillouin
+zone. The details of how this can be done is beyond the scope of this course,
+but an outline is given [:link:
+here](../extras/labs/high_symmetry_points/readme.md).
 
-The directory `03_bandstructure` contains input files to calculate and
-plot the band structure of diamond. This a four-step process:
+The directory `03_bandstructure` contains input files to calculate and plot the
+band structure of diamond. This a four-step process:
 
 ### Step 1 - SCF Calculation
 Calculate a converged density with a standard  self-consistent field (SCF)
