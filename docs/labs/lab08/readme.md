@@ -100,7 +100,7 @@ K_POINTS automatic
 !!! example "Task 1 - Smearing"
 
     First, run the `pw.x` calculation with the supplied input file in
-    [`01_aluminium/Al.in`](01_aluminium/Al.in).
+    [:link:01_aluminium/Al.in](01_aluminium/Al.in).
     
     Then, look in the `pwscf.xml` file and find the various `ks_energies`
     entries towards the end. These give the various k-points used in the
@@ -475,6 +475,15 @@ value. This is done by setting the `starting_magnetization` input variable.
         - As the Brillouin zone is different to the ones you have calculated so
           far you'll need to select a few sensible high-symmetry points yourself
           to plot with :slight_smile:.
+
+        ??? success "Answer"
+            You can find the relevant input file in the directory 
+            `03_Fe/extra_bandstructure`. Give the `run_all.sh` file a read and
+            try to run the calculation. The band structure should look like The
+            following:
+            <figure markdown="span">
+              ![Diamond primitive cell](assets/Iron_bands.png){ width="500" }
+            </figure>
 
 ------------------------------------------------------------------------------
 
