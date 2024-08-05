@@ -9,6 +9,7 @@
     ntyp = 1
     ecutwfc = 18.0
     occupations = 'smearing'
+    smearing = 'fermi-dirac'
     degauss = 0.1d0
  /
 
