@@ -110,9 +110,36 @@ K_POINTS automatic
     used has 3 valence electrons, which could be represented with two
     potentially doubly occupied bands, so we have four more bands in the
     calculation for a total of 6.
+
+    !!! success "Example" 
+        ```
+              <ks_energies>
+                <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point>
+                <npw>59</npw>
+                <eigenvalues size="6">
+          1.315972343567215E-001  1.505697520824042E+000  1.607697079464305E+000
+          1.607697714947740E+000  1.834366371282428E+000
+          1.952726961146777E+000
+                </eigenvalues>
+                <occupations size="6">
+          9.999990177787399E-001  1.181697427742303E-006  1.536561074875367E-007
+          1.536541545820267E-007  1.650917762173208E-009
+          1.547598926179030E-010
+                </occupations>
+              </ks_energies>
+         ... 
+        ```
     
     Now, try removing the `occupations` and `degauss` variables from the input
     file and see what happens when you try to run the calculation.
+
+    !!! success "Example" 
+        ```
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+             Error in routine electrons (1):
+             charge is wrong: smearing is needed
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        ```
 
 ------------------------------------------------------------------------------
 
@@ -185,16 +212,17 @@ K_POINTS gamma
 
 !!! example "Task 2.1 - Assming Spin Degenerate Insulator"
 
-    Try running the calculation in this directory.
+    Try running the calculation in this directory. Does it converge?
     
-    While it's possible that the system may randomly meet the convergence
-    criteria in the self-consistent cycle, this calculation will most likely
-    not converge. If you look at the estimate accuracy at the end of each
-    iteration in the output, it will likely vary from step to step, rather than
-    steadily decreasing as in a well-behaved calculation.
-    
-    The situation we have is similar to a metal: we have two bands and the ground
-    state of the system should be when there is one electron in each of them.
+    ??? success "Answer"
+        While it's possible that the system may randomly meet the convergence
+        criteria in the self-consistent cycle, this calculation will most likely
+        not converge. If you look at the estimate accuracy at the end of each
+        iteration in the output, it will likely vary from step to step, rather than
+        steadily decreasing as in a well-behaved calculation.
+        
+        The situation we have is similar to a metal: we have two bands and the ground
+        state of the system should be when there is one electron in each of them.
 
 To get around this, we can use a metallic occupation scheme with a small
 smearing width. This will allow the system to converge to the correct ground
@@ -230,16 +258,31 @@ ATOMIC_POSITIONS angstrom
 K_POINTS gamma
 ```
 
-!!! example "Task 2.2 - Assuming Spin Degenerate Metal]"
+!!! example "Task 2.2 - Assuming Spin Degenerate Metal"
 
     Create a copy of the `02_O2` directory called `02_O2_metal`. Modify the
     input file in it to use a metallic occupation scheme with a small smearing
     width and run the calculation (as above). 
 
     - Does the calculation now converge?
+
+    ??? success "Answer"
+        Yes, the calculation should now converge.
+
     - Take a look at the file `pwscf.xml` in the calculation directory, and
       try to find the occupations of each band at each k-point. Are these as
       expected?
+
+    ??? success "Answer"
+        The occupations should be fractional for the highest occupied valence
+        band which is not physical for a molecule.
+        ```
+                <occupations size="8">
+          9.999997613058770E-001  9.999680732750561E-001  9.800308333633008E-001
+          9.433101748955524E-001  9.433101708179502E-001
+          5.459533880551336E-001  5.459533513549418E-001  4.147424691420094E-002
+                </occupations>
+        ```
 
 While treating this system as a metal may help converging the calculation, it
 may not necessarily reach the ground state since the spin-degress of freedom is
@@ -284,16 +327,57 @@ K_POINTS gamma
 !!! example "Task 2.3 - Assuming Spin Polarized Metal"
 
     Create another copy of `02_O2` called `02_O2_spin`. Then, try to:
-    1. Only turn on spin polarization.
+
+    1. Only turn on spin polarization. Does the calculation run?
+
+        ??? success "Answer"
+            The calculation will not run.
+            ```
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                Error in routine iosys (1):
+                fixed occupations and lsda need tot_magnetization
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            ```
+
     2. Setting the total magnetization to 0, which would be the case if we 
        don't have any net magnetization in the molecule, as both spins point in
        opposite directions. 
-    3. Setting the total magnetization to 2.0, which corresponds
-       to both spins pointing in the same direction.
 
-    - How does the total energy compare for each case compare to the metallic
-      scheme? Which is the more energetically favourable configuration? How do
-      the orbital energies vary?
+        ??? success "Answer"
+            The calculation converges to an energy of -63.25520699 Ry.
+
+    3. Setting the total magnetization to 2.0, which corresponds
+       to both spins pointing in the same direction. Is the energy lower? How do
+       the orbital energies vary?
+
+        ??? success "Answer"
+            The calculation converges to an energy of -63.29338911 Ry. The
+            energy becomes lower with this configuration and the orbital
+            energies become different between spin channels.
+            ```
+                  <ks_energies>
+                    <k_point weight="1.00000000000000">0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000</k_point>
+                    <npw>26462</npw>
+                    <eigenvalues size="16">
+             -1.025922874232402E+000 -7.812538236389854E-001 -4.590520636167327E-001
+             -4.198711506107195E-001 -3.871387741292614E-001
+             -2.912685945326537E-001 -2.532555221576769E-001 -1.076727247566867E-001
+             -1.025922792354764E+000 -7.812537346931661E-001
+             -4.590520549643138E-001 -4.198710925526331E-001 -3.871386455493686E-001
+             -2.912685126157339E-001 -2.532553593136832E-001
+             -1.076726566570645E-001
+                    </eigenvalues>
+                    <occupations size="16">
+              1.000000000000000E+000  1.000000000000000E+000  1.000000000000000E+000
+              1.000000000000000E+000  1.000000000000000E+000
+              1.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000
+              1.000000000000000E+000  1.000000000000000E+000
+              1.000000000000000E+000  1.000000000000000E+000  1.000000000000000E+000
+              1.000000000000000E+000  0.000000000000000E+000
+              0.000000000000000E+000
+                    </occupations>
+                  </ks_energies>
+            ```
 
 Finally, comparing the energy of the spin polarized calculation with the spin
 degnerate metal calculation, we can see that the spin polarized calculation
@@ -325,23 +409,42 @@ up in the usual way for a metallic system.
 
 !!! example "Task 3.1 - fixed magnetization"
 
-    - Run this calculation and check everything worked as expected.
-    - Now make a copy of the calculation directory and in this, modify the
-      calculation to turn on spin polarization. Try running the calculation
-      with `tot_magnetization = 0.0` first, and compare your total energy to that
-      obtained using doubly degenerate bands. 
-      !!! note "Note" 
-          while in the case of the O2 above, we were able to get our
-          calculations to at least converge by using a metallic occupation
-          instead of using spin polarization, in the case of iron, it will still
-          be a metal when you use spin polarization, so you should not remove
-          the input variables associated with this. 
-      The total energies should agree within the accuracy of the calculation.
-    - Now try setting the total magnetization to 1.0 and see how total energy
-      changes.
-        - Which is the more energetically favourable configuration?
-    - Try setting the total magnetization to 2.0.
-        - How does this compare to the previous value?
+    1. Run this calculation and check everything worked as expected. What is the
+       final energy?
+
+        ??? success "Answer"
+            The final energy should be -55.52528610 Ry.
+
+    2. Now make a copy of the calculation directory and in this, modify the
+       calculation to turn on spin polarization. Try running the calculation
+       with `tot_magnetization = 0.0` first, and compare your total energy to that
+       obtained using doubly degenerate bands. 
+
+        !!! note "Note" 
+            while in the case of the O2 above, we were able to get our
+            calculations to at least converge by using a metallic occupation
+            instead of using spin polarization, in the case of iron, it will still
+            be a metal when you use spin polarization, so you should not remove
+            the input variables associated with this. 
+
+        ??? success "Answer"
+            The total energy becomes -55.52528589 Ry. Almost identical to the
+            one obtained with the doubly degenerate bands. This is because these
+            two calculations are essentially identical.
+
+    3. Now try setting the total magnetization to 1.0 and see how total energy
+       changes: Which is the more energetically favourable configuration?
+
+       ??? success "Answer"
+           The total energy becomes -55.53839616 Ry. Lower than the spin
+           degenerate case.
+
+    4. Try setting the total magnetization to 2.0. How does the final energy
+       compare to the previous value?
+
+       ??? success "Answer"
+           The total energy becomes -55.56226730 Ry. Lower than all previous
+           cases.
 
 From this we could test many guesses for the total magnetization, and find
 the value which gives the lowest overall total energy. However, we can instead
@@ -349,20 +452,29 @@ pass an option that tells quantum espresso to automatically find the best
 value. This is done by setting the `starting_magnetization` input variable.
 
 !!! example "Task 3.2 - Relaxed magnetization"
-    - Make another copy of the `03_Fe` directory, and this time set `nspin = 2`,
-      and `starting_magnetization = 1.0` (do not include the
-      `tot_magnetization` variable as this fixes a value). Run the calculation
-      and see what the final total magnetization per cell is. See if you can
-      find a measured value for iron to compare to.
+
+    1. Make another copy of the `03_Fe` directory, and this time set `nspin = 2`,
+       and `starting_magnetization = 1.0` (do not include the
+       `tot_magnetization` variable as this fixes a value). Run the calculation
+       and see what the final total magnetization per cell is. See if you can
+       find a measured value for iron to compare to.
+
+        ??? success "Answer"
+            The total magnetization becomes larger than 2.0.
+            ```
+            total magnetization       =     2.21 Bohr mag/cell
+            ```
+            This is becuase we are allowing the spin to fully relax in the
+            system.
     
-    - See if you can use what we covered in previous labs to calculate and make a
-      plot of the electronic band structure of BCC Fe.
+    2. See if you can use what we covered in previous labs to calculate and make a
+       plot of the electronic band structure of BCC Fe.
+
         - Plot the spin-up and spin-down bands in different colours.
-        - There are different Fermi energies for the spin-up and spin-down bands:
-          indicate these on your plot in some sensible way.
+        - Indicate the Fermi energy on your plot in some sensible way.
         - As the Brillouin zone is different to the ones you have calculated so
           far you'll need to select a few sensible high-symmetry points yourself
-          to plot with.
+          to plot with :slight_smile:.
 
 ------------------------------------------------------------------------------
 
