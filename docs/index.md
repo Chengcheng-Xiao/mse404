@@ -54,7 +54,7 @@ Extras:
 - [More Useful Linux Commands](labs/extras/misc/linuxcommands/readme.md)
 - [Plotting with Gnuplot](labs/extras/misc/gnuplot/readme.md)
 - [Bash and Shell Scripting](labs/extras/misc/shellscripting/readme.md)
-- [Running in Parallel](labs/extras/labs/running_in_parallel/readme.md)
+- [Running in Parallel](labs/extras/misc/running_in_parallel/readme.md)
 
 ## How to Use this Material
 
