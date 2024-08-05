@@ -111,7 +111,7 @@ K_POINTS automatic
     potentially doubly occupied bands, so we have four more bands in the
     calculation for a total of 6.
 
-    !!! success "Example" 
+    ??? success "Example" 
         ```
               <ks_energies>
                 <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point>
@@ -133,7 +133,7 @@ K_POINTS automatic
     Now, try removing the `occupations` and `degauss` variables from the input
     file and see what happens when you try to run the calculation.
 
-    !!! success "Example" 
+    ??? success "Example" 
         ```
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
              Error in routine electrons (1):
@@ -435,16 +435,16 @@ up in the usual way for a metallic system.
     3. Now try setting the total magnetization to 1.0 and see how total energy
        changes: Which is the more energetically favourable configuration?
 
-       ??? success "Answer"
-           The total energy becomes -55.53839616 Ry. Lower than the spin
-           degenerate case.
+        ??? success "Answer"
+            The total energy becomes -55.53839616 Ry. Lower than the spin
+            degenerate case.
 
     4. Try setting the total magnetization to 2.0. How does the final energy
        compare to the previous value?
 
-       ??? success "Answer"
-           The total energy becomes -55.56226730 Ry. Lower than all previous
-           cases.
+        ??? success "Answer"
+            The total energy becomes -55.56226730 Ry. Lower than all previous
+            cases.
 
 From this we could test many guesses for the total magnetization, and find
 the value which gives the lowest overall total energy. However, we can instead
